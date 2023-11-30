@@ -1,0 +1,51 @@
+<form class='form' [formGroup]='signUpForm' (ngSubmit)='submit()'>
+  <div class='form-field'>
+    <label for='email'>Email</label>
+    <input class='form-input' type='text' name='email' id='email' placeholder='Enter your email' formControlName='email'>
+    <ul class='validation' *ngIf='email.invalid && (email.touched || email.dirty)'>
+      <li class='validation-item' *ngIf='email.errors?.["required"]'>
+        Please enter email
+      </li>
+      <li class='validation-item' *ngIf='email.errors?.["email"]'>
+        Email have invalid format
+      </li>
+    </ul>
+  </div>
+  <div class='form-field'>
+    <label for='name'>Name</label>
+    <input class='form-input' type='text' name='name' id='name' placeholder='Enter your name' formControlName='name'>
+    <ul class='validation' *ngIf='name.invalid && (name.touched || name.dirty)'>
+      <li class='validation-item' *ngIf='name.errors?.["required"]'>
+        Please enter name
+      </li>
+      <li class='validation-item' *ngIf='name.errors?.["invalidName"]'>
+        {{name.errors?.["invalidName"].message}}
+      </li>
+    </ul>
+  </div>
+  <div class='form-field'>
+    <label for='password'>Password</label>
+    <input class='form-input' type='password' name='name' id='password' placeholder='Enter password' formControlName='password' autocomplete='false'>
+    <ul class='validation' *ngIf='password.invalid && (password.touched || password.dirty)'>
+      <li class='validation-item' *ngIf='password.errors?.["required"]'>
+        Please enter a password
+      </li>
+      <li class='validation-item' *ngIf='password.errors?.["passwordStrong"]'>
+        {{password.errors?.["passwordStrong"].message}}
+      </li>
+      <li class='validation-item' *ngIf='password.errors?.["passwordLength"]'>
+        {{password.errors?.["passwordLength"].message}}
+      </li>
+      <li class='validation-item' *ngIf='password.errors?.["passwordLettersCase"]'>
+        {{password.errors?.["passwordLettersCase"].message}}
+      </li>
+      <li class='validation-item' *ngIf='password.errors?.["passwordDigits"]'>
+        {{password.errors?.["passwordDigits"].message}}
+      </li>
+      <li class='validation-item' *ngIf='password.errors?.["passwordSpecialChars"]'>
+        {{password.errors?.["passwordSpecialChars"].message}}
+      </li>
+    </ul>
+  </div>
+  <app-button class='form-submit' type='submit' [color]='COLOR_BLUE' [disabled]='signUpForm.invalid'>Sign Up</app-button>
+</form>

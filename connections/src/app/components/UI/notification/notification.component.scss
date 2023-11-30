@@ -1,0 +1,23 @@
+:host {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+
+.notification {
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+}
+
+.error {
+  color: #D32F2F;
+}
+
+.success {
+  color: #388E3C;
+}

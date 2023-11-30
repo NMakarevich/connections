@@ -1,0 +1,5 @@
+<div class='notification' *ngIf='notification$ | async as notification'>
+  <span class='material-symbols-outlined' [ngClass]='notification.type' *ngIf='notification.type === "error"'>error</span>
+  <span class='material-symbols-outlined' [ngClass]='notification.type' *ngIf='notification.type === "success"'>done</span>
+  <p>{{notification.message}}</p>
+</div>
