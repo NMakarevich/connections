@@ -1,5 +1,6 @@
-import { createReducer } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { EMAIL, TOKEN, UID } from '../../utils/consts';
+import * as authActions from '../actions/auth.actions';
 
 interface AuthState {
   isAuth: boolean;
@@ -20,3 +21,17 @@ export const initialState: AuthState = {
 };
 
 export const authReducers = createReducer(initialState);
+export const authReducers = createReducer(
+  initialState,
+  on(authActions.loginSuccess, (state, { response }) => {
+    localStorage.setItem(TOKEN, response.token);
+    localStorage.setItem(UID, response.uid);
+    return {
+      ...state,
+      isAuth: true,
+      token: response.token,
+      rsUid: response.uid,
+      rsEmail: `${localStorage.getItem(EMAIL)}`,
+    };
+  }),
+);

@@ -4,8 +4,11 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import {
   validatePasswordDigits,
   validatePasswordLength,
@@ -13,8 +16,11 @@ import {
   validatePasswordSpecialChars,
   validatePasswordStrong,
 } from '../../utils/validators';
+import { COLOR_BLUE } from '../../utils/consts';
+import { ButtonComponent } from '../UI/button/button.component';
+import { login } from '../../redux/actions/auth.actions';
 
-interface SignIn {
+export interface SignIn {
   email: FormControl<string>;
   password: FormControl<string>;
 }
@@ -22,7 +28,7 @@ interface SignIn {
 @Component({
   selector: 'app-signin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.scss',
 })
@@ -42,7 +48,10 @@ export class SigninComponent {
     ],
   });
 
-  constructor(private readonly fb: FormBuilder) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly store: Store
+  ) {}
 
   get email() {
     return this.signInForm.controls.email;
@@ -51,4 +60,10 @@ export class SigninComponent {
   get password() {
     return this.signInForm.controls.password;
   }
+
+  submit() {
+    this.store.dispatch(login({ user: this.signInForm.getRawValue() }));
+  }
+
+  protected readonly COLOR_BLUE = COLOR_BLUE;
 }
