@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
 import { NotificationService } from '../../components/UI/notification/notification.service';
 import { EMAIL } from '../../utils/consts';
 
-export const signup = createEffect(
+export const signup$ = createEffect(
   (actions$ = inject(Actions), apiService = inject(ApiService)) => {
     return actions$.pipe(
       ofType(authActions.signup),
@@ -26,7 +26,7 @@ export const signup = createEffect(
   { functional: true }
 );
 
-export const signupError = createEffect(
+export const signupError$ = createEffect(
   (
     actions$ = inject(Actions),
     notificationService = inject(NotificationService)
@@ -41,7 +41,7 @@ export const signupError = createEffect(
   { functional: true, dispatch: false }
 );
 
-export const signupSuccess = createEffect(
+export const signupSuccess$ = createEffect(
   (
     actions$ = inject(Actions),
     notificationService = inject(NotificationService),
@@ -61,7 +61,7 @@ export const signupSuccess = createEffect(
   { functional: true, dispatch: false }
 );
 
-export const login = createEffect(
+export const login$ = createEffect(
   (actions$ = inject(Actions), apiService = inject(ApiService)) => {
     return actions$.pipe(
       ofType(authActions.login),
@@ -80,7 +80,7 @@ export const login = createEffect(
   { functional: true }
 );
 
-export const loginSuccess = createEffect(
+export const loginSuccess$ = createEffect(
   (
     actions$ = inject(Actions),
     router = inject(Router),
@@ -100,13 +100,65 @@ export const loginSuccess = createEffect(
   { functional: true, dispatch: false }
 );
 
-export const loginError = createEffect(
+export const loginError$ = createEffect(
   (
     actions$ = inject(Actions),
     notificationService = inject(NotificationService)
   ) => {
     return actions$.pipe(
       ofType(authActions.loginError),
+      tap(({ message }) =>
+        notificationService.showNotification({ message, type: 'error' })
+      )
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+export const logout$ = createEffect(
+  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
+    return actions$.pipe(
+      ofType(authActions.logout),
+      switchMap(() =>
+        apiService.logout().pipe(
+          map(() => authActions.logoutSuccess()),
+          catchError(({ error }) =>
+            of(authActions.logoutError({ message: error.message }))
+          )
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const logoutSuccess$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    router = inject(Router),
+    notificationService = inject(NotificationService)
+  ) => {
+    return actions$.pipe(
+      ofType(authActions.logoutSuccess),
+      tap(() => {
+        notificationService.showNotification({
+          message: 'Logout success',
+          type: 'success',
+        });
+        router.navigate(['signin']);
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+export const logoutError$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    notificationService = inject(NotificationService)
+  ) => {
+    return actions$.pipe(
+      ofType(authActions.logoutError),
       tap(({ message }) =>
         notificationService.showNotification({ message, type: 'error' })
       )

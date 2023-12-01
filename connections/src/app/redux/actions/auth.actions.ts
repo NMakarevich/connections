@@ -31,3 +31,12 @@ export const loginError = createAction(
   '[Auth] Login error',
   props<{ message: string }>()
 );
+
+export const logout = createAction('[Auth] Logout');
+
+export const logoutSuccess = createAction('[Auth] Logout success');
+
+export const logoutError = createAction(
+  '[Auth] Logout error',
+  props<{ message: string }>()
+);

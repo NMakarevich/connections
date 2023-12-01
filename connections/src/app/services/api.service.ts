@@ -19,4 +19,8 @@ export class ApiService {
   login(body: SignInModel) {
     return this.http.post<SignInResponseModel>('login', body);
   }
+
+  logout() {
+    return this.http.delete('logout');
+  }
 }
