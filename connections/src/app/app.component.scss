@@ -5,7 +5,18 @@
   height: 100%;
 }
 
+.header {
+  padding: 10px;
+  background-color: #1976D2;
+}
+
 .main {
   width: 100%;
+  flex: 1;
+  display: flex;
+}
+
+.container {
+  position: relative;
   flex: 1;
 }

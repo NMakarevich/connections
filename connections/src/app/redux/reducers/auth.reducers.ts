@@ -1,4 +1,9 @@
-import { createReducer, on } from '@ngrx/store';
+import {
+  createFeatureSelector,
+  createReducer,
+  createSelector,
+  on,
+} from '@ngrx/store';
 import { EMAIL, TOKEN, UID } from '../../utils/consts';
 import * as authActions from '../actions/auth.actions';
 
@@ -37,4 +42,10 @@ export const authReducers = createReducer(
     localStorage.clear();
     return { ...initialState };
   })
+);
+
+export const selectAuth = createFeatureSelector<AuthState>('auth');
+export const selectAuthStatus = createSelector(
+  selectAuth,
+  (state) => state.isAuth
 );
