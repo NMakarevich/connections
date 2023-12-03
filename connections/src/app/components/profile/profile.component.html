@@ -1,0 +1,21 @@
+<ng-container *ngIf='profile$ | async as profile'>
+  <h2>Card of user {{profile.name.S}}</h2>
+  <ul class='profile'>
+    <li class='profile-data'>
+      <span class='profile-data-item profile-data-name'>UID</span>
+      <span class='profile-data-item profile-data-value'>{{profile.uid.S}}</span>
+    </li>
+    <li class='profile-data'>
+      <span class='profile-data-item profile-data-name'>Email</span>
+      <span class='profile-data-item profile-data-value'>{{profile.email.S}}</span>
+    </li>
+    <li class='profile-data'>
+      <span class='profile-data-item profile-data-name'>Name</span>
+      <span class='profile-data-item profile-data-value'>{{profile.name.S}}</span>
+    </li>
+    <li class='profile-data'>
+      <span class='profile-data-item profile-data-name'>Registration date</span>
+      <span class='profile-data-item profile-data-value'>{{profile.createdAt.S | date: 'full'}}</span>
+    </li>
+  </ul>
+</ng-container>

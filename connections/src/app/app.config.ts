@@ -18,6 +18,8 @@ import { httpInterceptor } from './http.interceptor';
 import { routes } from './app.routes';
 import { authReducers } from './redux/reducers/auth.reducers';
 import * as authEffects from './redux/effects/auth.effects';
+import { profileReducers } from './redux/reducers/profile.reducers';
+import * as profileEffects from './redux/effects/profile.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,8 +29,8 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi(),
       withInterceptors([httpInterceptor])
     ),
-    provideStore({ auth: authReducers }),
-    provideEffects([authEffects]),
+    provideStore({ auth: authReducers, profile: profileReducers }),
+    provideEffects([authEffects, profileEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

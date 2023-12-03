@@ -5,6 +5,7 @@ import {
   SignInResponseModel,
   SignUpModel,
 } from '../models/auth.model';
+import { ProfileModel } from '../models/profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,5 +23,9 @@ export class ApiService {
 
   logout() {
     return this.http.delete('logout');
+  }
+
+  getProfile() {
+    return this.http.get<ProfileModel>('profile');
   }
 }

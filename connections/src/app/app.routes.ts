@@ -20,4 +20,13 @@ export const routes: Routes = [
     title: 'Login',
   },
   { path: '', component: MainComponent, canActivate: [authGuard] },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./pages/profile-page/profile-page.component').then(
+        (c) => c.ProfilePageComponent
+      ),
+    title: 'Profile',
+    canActivate: [authGuard],
+  },
 ];
