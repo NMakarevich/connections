@@ -1,5 +1,6 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as profileActions from '../actions/profile.actions';
+import { logoutSuccess } from '../actions/auth.actions';
 
 export interface ProfileState {
   uid: { S: string };
@@ -22,6 +23,12 @@ export const profileReducers = createReducer(
     (state, { profile }): ProfileState => ({
       ...state,
       ...profile,
+    })
+  on(
+    logoutSuccess,
+    (state): ProfileState => ({
+      ...state,
+      ...initialState,
     })
   )
 );
