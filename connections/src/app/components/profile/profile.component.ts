@@ -26,6 +26,7 @@ import {
   selectProfile,
 } from '../../redux/reducers/profile.reducers';
 import { validateName } from '../../utils/validators';
+import { MAX_NAME_LENGTH } from '../../utils/consts';
 
 interface EditName {
   name: FormControl<string>;
@@ -53,7 +54,14 @@ export class ProfileComponent implements OnInit {
   subscription!: Subscription;
 
   editForm: FormGroup<EditName> = this.fb.nonNullable.group({
-    name: ['', [Validators.required, validateName]],
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(MAX_NAME_LENGTH),
+        validateName,
+      ],
+    ],
   });
 
   isEdit = false;

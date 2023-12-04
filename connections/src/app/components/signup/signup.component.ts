@@ -17,7 +17,7 @@ import {
   validatePasswordStrong,
 } from '../../utils/validators';
 import { ButtonComponent } from '../UI/button/button.component';
-import { COLOR_BLUE } from '../../utils/consts';
+import { COLOR_BLUE, MAX_NAME_LENGTH } from '../../utils/consts';
 import { signup } from '../../redux/actions/auth.actions';
 
 export interface SignUp {
@@ -35,7 +35,14 @@ export interface SignUp {
 })
 export class SignupComponent {
   signUpForm: FormGroup<SignUp> = this.fb.nonNullable.group({
-    name: ['', [Validators.required, validateName]],
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(MAX_NAME_LENGTH),
+        validateName,
+      ],
+    ],
     email: ['', [Validators.required, Validators.email]],
     password: [
       '',

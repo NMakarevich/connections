@@ -34,6 +34,9 @@
           <li class='validation-item' *ngIf='name.errors?.["invalidName"]'>
             {{name.errors?.["invalidName"].message}}
           </li>
+          <li class='validation-item' *ngIf='name.errors?.["maxlength"]'>
+            Maximum name length is 40 characters
+          </li>
         </ul>
       </form>
     </li>
