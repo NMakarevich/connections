@@ -28,4 +28,8 @@ export class ApiService {
   getProfile() {
     return this.http.get<ProfileModel>('profile');
   }
+
+  updateProfileName(name: string) {
+    return this.http.put('profile', { name });
+  }
 }

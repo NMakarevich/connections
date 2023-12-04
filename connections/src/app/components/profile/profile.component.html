@@ -11,7 +11,31 @@
     </li>
     <li class='profile-data'>
       <span class='profile-data-item profile-data-name'>Name</span>
-      <span class='profile-data-item profile-data-value'>{{profile.name.S}}</span>
+      <div class='profile-data-static' *ngIf='!isEdit'>
+        <span class='profile-data-item profile-data-value'>{{profile.name.S}}</span>
+        <button class='edit-button' (click)='toggleInput()'>
+          <span class='material-symbols-outlined'>edit</span>
+        </button>
+      </div>
+      <form class='profile-data-edit' *ngIf='isEdit' [formGroup]='editForm'>
+        <div class='form-field'>
+          <input class='profile-data-input' type='text' name='name' formControlName='name' (submit)='updateName()'>
+          <button type='submit' class='edit-button done' (click)='updateName()' [disabled]='profile.name.S === name.value || name.invalid'>
+            <span class='material-symbols-outlined'>done</span>
+          </button>
+          <button class='edit-button close' (click)='isEdit = false'>
+            <span class='material-symbols-outlined'>close</span>
+          </button>
+        </div>
+        <ul class='validation' *ngIf='name.invalid && (name.touched || name.dirty)'>
+          <li class='validation-item' *ngIf='name.errors?.["required"]'>
+            Please enter name
+          </li>
+          <li class='validation-item' *ngIf='name.errors?.["invalidName"]'>
+            {{name.errors?.["invalidName"].message}}
+          </li>
+        </ul>
+      </form>
     </li>
     <li class='profile-data'>
       <span class='profile-data-item profile-data-name'>Registration date</span>

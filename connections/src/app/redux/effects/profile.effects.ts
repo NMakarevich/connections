@@ -5,7 +5,6 @@ import { catchError, map, of, switchMap, take, tap } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import * as profileActions from '../actions/profile.actions';
 import { selectProfile } from '../reducers/profile.reducers';
-import { loadProfileError } from '../actions/profile.actions';
 import { NotificationService } from '../../components/UI/notification/notification.service';
 
 export const loadProfile$ = createEffect(
@@ -61,6 +60,67 @@ export const loadProfileError$ = createEffect(
       ofType(profileActions.loadProfileError),
       tap(({ message }) =>
         notificationService.showNotification({ message, type: 'error' })
+      )
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+export const updateProfile$ = createEffect(
+  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
+    return actions$.pipe(
+      ofType(profileActions.updateProfile),
+      switchMap(({ name }) =>
+        apiService.updateProfileName(name).pipe(
+          map(() => profileActions.updateProfileSuccess({ name })),
+          catchError(({ error }) => {
+            if (!error.status && error instanceof ProgressEvent)
+              return of(
+                profileActions.updateProfileError({
+                  message: 'No internet connection',
+                })
+              );
+            return of(
+              profileActions.updateProfileError({ message: error.message })
+            );
+          })
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const updateProfileSuccess$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    notificationService = inject(NotificationService)
+  ) => {
+    return actions$.pipe(
+      ofType(profileActions.updateProfileSuccess),
+      tap(() =>
+        notificationService.showNotification({
+          message: 'Update profile name success',
+          type: 'success',
+        })
+      )
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+export const updateProfileError$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    notificationService = inject(NotificationService)
+  ) => {
+    return actions$.pipe(
+      ofType(profileActions.updateProfileError),
+      tap(({ message }) =>
+        notificationService.showNotification({
+          message,
+          type: 'error',
+        })
       )
     );
   },

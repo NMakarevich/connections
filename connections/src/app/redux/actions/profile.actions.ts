@@ -16,3 +16,18 @@ export const loadProfileError = createAction(
   '[Profile] Profile loading error',
   props<{ message: string }>()
 );
+
+export const updateProfile = createAction(
+  '[Profile] Update profile name',
+  props<{ name: string }>()
+);
+
+export const updateProfileSuccess = createAction(
+  '[Profile] Update profile success',
+  props<{ name: string }>()
+);
+
+export const updateProfileError = createAction(
+  '[Profile] Update profile error',
+  props<{ message: string }>()
+);

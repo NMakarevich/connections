@@ -28,8 +28,55 @@
       padding: 10px;
     }
 
+    &-input {
+      padding: 5px;
+    }
+
     &-value {
       align-self: end;
+    }
+
+    &-static {
+      display: flex;
+      align-items: center;
+    }
+
+    &-edit {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .form-field {
+        flex-direction: row;
+      }
+
+      .validation {
+        list-style: none;
+
+        &-item {
+          font-size: 14px;
+          color: #D32F2F;
+        }
+      }
+    }
+  }
+
+  .edit-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #1976D2;
+
+    &.done {
+      color: #388E3C;
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    &.close {
+      color: #D32F2F;
     }
   }
 }

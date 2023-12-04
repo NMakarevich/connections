@@ -24,6 +24,14 @@ export const profileReducers = createReducer(
       ...state,
       ...profile,
     })
+  ),
+  on(
+    profileActions.updateProfileSuccess,
+    (state, { name }): ProfileState => ({
+      ...state,
+      name: { S: name },
+    })
+  ),
   on(
     logoutSuccess,
     (state): ProfileState => ({
