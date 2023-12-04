@@ -34,9 +34,17 @@ export const loadProfileFromServer$ = createEffect(
       switchMap(() =>
         apiService.getProfile().pipe(
           map((profile) => profileActions.loadProfileSuccess({ profile })),
-          catchError(({ error }) =>
-            of(loadProfileError({ message: error.message }))
-          )
+          catchError(({ error }) => {
+            if (!error.status && error instanceof ProgressEvent)
+              return of(
+                profileActions.loadProfileError({
+                  message: 'No internet connection',
+                })
+              );
+            return of(
+              profileActions.loadProfileError({ message: error.message })
+            );
+          })
         )
       )
     );
