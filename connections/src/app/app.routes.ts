@@ -29,4 +29,12 @@ export const routes: Routes = [
     title: 'Profile',
     canActivate: [authGuard],
   },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./pages/not-found-page/not-found-page.component').then(
+        (c) => c.NotFoundPageComponent
+      ),
+    title: 'Page not found',
+  },
 ];
