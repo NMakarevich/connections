@@ -9,6 +9,9 @@
       <li class='validation-item' *ngIf='email.errors?.["email"]'>
         Email have invalid format
       </li>
+      <li class='validation-item' *ngIf='email.errors?.["enteredEmail"]'>
+        {{email.errors?.["enteredEmail"].message}}
+      </li>
     </ul>
   </div>
   <div class='form-field'>

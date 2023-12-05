@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import {
+  validateEnteredEmail,
   validateName,
   validatePasswordDigits,
   validatePasswordLength,
@@ -34,6 +35,8 @@ export interface SignUp {
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
+  enteredEmails: string[] = [];
+
   signUpForm: FormGroup<SignUp> = this.fb.nonNullable.group({
     name: [
       '',
@@ -43,7 +46,14 @@ export class SignupComponent {
         validateName,
       ],
     ],
-    email: ['', [Validators.required, Validators.email]],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email,
+        validateEnteredEmail(this.enteredEmails),
+      ],
+    ],
     password: [
       '',
       [
@@ -75,7 +85,9 @@ export class SignupComponent {
   }
 
   submit() {
+    this.enteredEmails.push(this.email.value);
     this.store.dispatch(signup({ user: this.signUpForm.getRawValue() }));
+    this.email.updateValueAndValidity();
   }
 
   protected readonly COLOR_BLUE = COLOR_BLUE;

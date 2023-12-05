@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function validateName(
   control: AbstractControl
@@ -69,4 +69,13 @@ export function validatePasswordSpecialChars(
           message: 'inclusion of at least one special character, e.g., ! @ # ?',
         },
       };
+}
+
+export function validateEnteredEmail(emails: string[]): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const { value } = control;
+    return emails.includes(value)
+      ? { enteredEmail: { message: 'This email was entered early' } }
+      : null;
+  };
 }
