@@ -18,21 +18,6 @@
       <li class='validation-item' *ngIf='password.errors?.["required"]'>
         Please enter a password
       </li>
-      <li class='validation-item' *ngIf='password.errors?.["passwordStrong"]'>
-        {{password.errors?.["passwordStrong"].message}}
-      </li>
-      <li class='validation-item' *ngIf='password.errors?.["passwordLength"]'>
-        {{password.errors?.["passwordLength"].message}}
-      </li>
-      <li class='validation-item' *ngIf='password.errors?.["passwordLettersCase"]'>
-        {{password.errors?.["passwordLettersCase"].message}}
-      </li>
-      <li class='validation-item' *ngIf='password.errors?.["passwordDigits"]'>
-        {{password.errors?.["passwordDigits"].message}}
-      </li>
-      <li class='validation-item' *ngIf='password.errors?.["passwordSpecialChars"]'>
-        {{password.errors?.["passwordSpecialChars"].message}}
-      </li>
     </ul>
   </div>
   <app-button class='form-submit' type='submit' [color]='COLOR_BLUE' [disabled]='signInForm.invalid'>Sign Up</app-button>

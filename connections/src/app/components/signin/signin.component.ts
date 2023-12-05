@@ -9,13 +9,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import {
-  validatePasswordDigits,
-  validatePasswordLength,
-  validatePasswordLettersCase,
-  validatePasswordSpecialChars,
-  validatePasswordStrong,
-} from '../../utils/validators';
 import { COLOR_BLUE } from '../../utils/consts';
 import { ButtonComponent } from '../UI/button/button.component';
 import { login } from '../../redux/actions/auth.actions';
@@ -35,17 +28,7 @@ export interface SignIn {
 export class SigninComponent {
   signInForm: FormGroup<SignIn> = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
-    password: [
-      '',
-      [
-        Validators.required,
-        validatePasswordStrong,
-        validatePasswordLength,
-        validatePasswordLettersCase,
-        validatePasswordDigits,
-        validatePasswordSpecialChars,
-      ],
-    ],
+    password: ['', [Validators.required]],
   });
 
   constructor(
