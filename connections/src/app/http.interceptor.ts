@@ -1,8 +1,10 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { BASE_URL, EMAIL, TOKEN, UID } from './utils/consts';
 
+const skipHeaders = ['login', 'registration'];
+
 export const httpInterceptor: HttpInterceptorFn = (req, next) => {
-  if (req.url !== 'registration' && req.url !== 'login')
+  if (!skipHeaders.includes(req.url))
     return next(
       req.clone({
         url: `${BASE_URL}/${req.url}`,
