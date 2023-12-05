@@ -31,6 +31,12 @@ export class SigninComponent {
     password: ['', [Validators.required]],
   });
 
+  isChanged = true;
+
+  enteredEmail = '';
+
+  enteredPassword = '';
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly store: Store
@@ -44,7 +50,23 @@ export class SigninComponent {
     return this.signInForm.controls.password;
   }
 
+  fieldIsChanged() {
+    if (
+      !this.isChanged &&
+      (this.enteredPassword !== this.password.value ||
+        this.enteredEmail !== this.email.value)
+    ) {
+      this.enteredEmail = '';
+      this.enteredPassword = '';
+      this.isChanged = true;
+    }
+    return !this.isChanged;
+  }
+
   submit() {
+    this.isChanged = false;
+    this.enteredEmail = this.email.value;
+    this.enteredPassword = this.password.value;
     this.store.dispatch(login({ user: this.signInForm.getRawValue() }));
   }
 
