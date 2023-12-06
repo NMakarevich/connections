@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import {
   SignInModel,
   SignInResponseModel,
   SignUpModel,
 } from '../models/auth.model';
 import { ProfileModel } from '../models/profile.model';
+import { GroupResponse, GroupsList } from '../models/group.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +32,18 @@ export class ApiService {
 
   updateProfileName(name: string) {
     return this.http.put('profile', { name });
+  }
+
+  loadGroups() {
+    return this.http.get<GroupsList>('groups/list');
+  }
+
+  createGroup(name: string) {
+    return this.http.post<GroupResponse>('groups/create', { name });
+  }
+
+  deleteGroup(id: string) {
+    const params = new HttpParams().set('groupID', id);
+    return this.http.delete('groups/delete', { params });
   }
 }

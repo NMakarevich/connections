@@ -1,0 +1,16 @@
+<header class='header'>
+  <app-button [color]='COLOR_BLUE' (click)='addGroup()'>
+    <span class='material-symbols-outlined'>add</span>
+  </app-button>
+  <div class='refresh'>
+    <app-button [color]='COLOR_BLUE' (click)='refreshList()' [disabled]='refreshTime !== 0'>
+      <span class='material-symbols-outlined'>refresh</span>
+    </app-button>
+    <span *ngIf='refreshTime !== 0' class='refresh-timer'>{{refreshTime}}s</span>
+  </div>
+</header>
+<ul class='groups-list' *ngIf='groupsList$ | async as groupsList'>
+  <li *ngFor='let group of groupsList; trackBy: trackByFn'>
+    <app-group-list-item [groupItem]='group'></app-group-list-item>
+  </li>
+</ul>

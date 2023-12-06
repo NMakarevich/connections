@@ -46,6 +46,11 @@ body {
     }
   }
 
+  &-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .validation {
     list-style: none;
 

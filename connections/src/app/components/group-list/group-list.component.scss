@@ -1,0 +1,30 @@
+:host {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+
+  .refresh {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-timer {
+      position: absolute;
+      top: 103%;
+    }
+  }
+}
+
+.groups-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}

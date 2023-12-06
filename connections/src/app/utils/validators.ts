@@ -79,3 +79,16 @@ export function validateEnteredEmail(emails: string[]): ValidatorFn {
       : null;
   };
 }
+
+export function validateGroupName(
+  control: AbstractControl
+): ValidationErrors | null {
+  const { value } = control;
+  return /^[a-zA-Z\d\s]+$/gm.test(value)
+    ? null
+    : {
+        invalidGroupName: {
+          message: 'Name could be any of letters, digits or spaces',
+        },
+      };
+}

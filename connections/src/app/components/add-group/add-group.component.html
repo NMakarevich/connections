@@ -1,0 +1,22 @@
+<form class='form' [formGroup]='formGroupName' (ngSubmit)='createGroup()'>
+  <div class='form-field'>
+    <label for='name'>Name</label>
+    <input class='form-input' type='text' name='name' id='name' placeholder='Enter group name' formControlName='name'>
+    <ul class='validation' *ngIf='name.invalid && (name.touched || name.dirty)'>
+      <li class='validation-item' *ngIf='name.errors?.["required"]'>
+        Please enter group name
+      </li>
+      <li class='validation-item' *ngIf='name.errors?.["maxlength"]'>
+        Name couldn't be consist of more 30 characters
+      </li>
+      <li class='validation-item' *ngIf='name.errors?.["invalidGroupName"]'>
+        {{name.errors?.["invalidGroupName"].message}}
+      </li>
+    </ul>
+  </div>
+  <div class='form-buttons'>
+    <app-button (click)='cancel()' [color]='COLOR_RED'>Cancel</app-button>
+    <app-button type='submit' [color]='COLOR_BLUE' [disabled]='formGroupName.invalid'>Create</app-button>
+  </div>
+</form>
+
