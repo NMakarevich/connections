@@ -14,7 +14,7 @@ import {
 import { GroupItem } from '../../models/group.model';
 import {
   selectGroupsList,
-  selectRefreshTime,
+  selectGroupRefreshTime,
 } from '../../redux/reducers/group.reducers';
 import { GroupListItemComponent } from '../group-list-item/group-list-item.component';
 
@@ -33,7 +33,7 @@ import { GroupListItemComponent } from '../group-list-item/group-list-item.compo
   styleUrl: './group-list.component.scss',
 })
 export class GroupListComponent implements OnInit {
-  groupsList$: Observable<GroupItem[]> = this.store.select(selectGroupsList);
+  groupsList$!: Observable<GroupItem[]>;
 
   refreshTime = 0;
 
@@ -44,14 +44,15 @@ export class GroupListComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(loadGroups());
+    this.groupsList$ = this.store.select(selectGroupsList);
     this.timer().subscribe((value) => {
       this.refreshTime = value;
-      if (value <= 0) this.store.dispatch(resetTimer());
+      if (value <= 0) this.store.dispatch(resetGroupTimer());
     });
   }
 
   timer() {
-    const refreshTime$ = this.store.select(selectRefreshTime);
+    const refreshTime$ = this.store.select(selectGroupRefreshTime);
     const int = interval(1000);
     return refreshTime$.pipe(
       map((time) => Math.ceil((time - new Date().getTime()) / 1000)),

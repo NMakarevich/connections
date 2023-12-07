@@ -71,9 +71,9 @@ export const selectGroupsList = createSelector(
   (state) => state.groupsList.Items
 );
 
-export const selectRefreshTime = createSelector(selectGroupsState, (state) => {
-  // if (state.refreshTime !== 0)
-  //   return Math.ceil((state.refreshTime - new Date().getTime()) / 1000);
-  // return 0;
-  return state.refreshTime;
-});
+export const selectGroupRefreshTime = createSelector(
+  selectGroupsState,
+  (state) => {
+    return state.refreshTime;
+  }
+);
