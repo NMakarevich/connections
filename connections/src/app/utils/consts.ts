@@ -10,3 +10,5 @@ export const COLOR_BLUE = '#1976D2';
 export const COLOR_RED = '#D32F2F';
 
 export const MAX_NAME_LENGTH = 40;
+
+export const REFRESH_TIME = 60000;

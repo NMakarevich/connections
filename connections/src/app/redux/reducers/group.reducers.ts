@@ -6,6 +6,7 @@ import {
 } from '@ngrx/store';
 import { GroupsList } from '../../models/group.model';
 import * as groupActions from '../actions/group.actions';
+import { REFRESH_TIME } from '../../utils/consts';
 
 export interface GroupState {
   groupsList: GroupsList;
@@ -51,7 +52,7 @@ export const groupsReducers = createReducer(
     };
   }),
   on(groupActions.refreshGroupsList, (state): GroupState => {
-    const time = new Date().getTime() + 60000;
+    const time = new Date().getTime() + REFRESH_TIME;
     return { ...state, refreshTime: time };
   }),
   on(
