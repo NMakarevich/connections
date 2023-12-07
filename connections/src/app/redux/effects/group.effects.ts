@@ -17,7 +17,7 @@ export const loadGroupsList$ = createEffect(
         store.select(selectGroupsState).pipe(
           take(1),
           map((state) => {
-            if (state.groupsList.Items.length)
+            if (state.dataLoaded)
               return groupActions.loadGroupsSuccess({
                 groups: state.groupsList,
               });

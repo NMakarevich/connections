@@ -11,6 +11,7 @@ import { REFRESH_TIME } from '../../utils/consts';
 export interface GroupState {
   groupsList: GroupsList;
   refreshTime: number;
+  dataLoaded: boolean;
 }
 
 export const initialState: GroupState = {
@@ -19,6 +20,7 @@ export const initialState: GroupState = {
     Items: [],
   },
   refreshTime: 0,
+  dataLoaded: false,
 };
 
 export const groupsReducers = createReducer(
@@ -31,6 +33,7 @@ export const groupsReducers = createReducer(
         Count: groups.Count,
         Items: [...groups.Items],
       },
+      dataLoaded: true,
     };
   }),
   on(groupActions.createGroupSuccess, (state, { group }): GroupState => {
