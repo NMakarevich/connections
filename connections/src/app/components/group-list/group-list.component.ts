@@ -9,7 +9,7 @@ import { AddGroupComponent } from '../add-group/add-group.component';
 import {
   loadGroups,
   refreshGroupsList,
-  resetTimer,
+  resetGroupTimer,
 } from '../../redux/actions/group.actions';
 import { GroupItem } from '../../models/group.model';
 import {

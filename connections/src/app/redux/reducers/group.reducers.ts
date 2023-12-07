@@ -56,7 +56,7 @@ export const groupsReducers = createReducer(
     return { ...state, refreshTime: time };
   }),
   on(
-    groupActions.resetTimer,
+    groupActions.resetGroupTimer,
     (state): GroupState => ({
       ...state,
       refreshTime: 0,

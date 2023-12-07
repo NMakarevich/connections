@@ -19,7 +19,7 @@ export const loadGroupsError = createAction(
 
 export const refreshGroupsList = createAction('[Group] Refresh groups list');
 
-export const resetTimer = createAction('[Group] Reset refresh timer');
+export const resetGroupTimer = createAction('[Group] Reset refresh timer');
 
 export const createGroup = createAction(
   '[Group] Create new group',
