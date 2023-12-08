@@ -7,6 +7,11 @@ import {
 } from '../models/auth.model';
 import { ProfileModel } from '../models/profile.model';
 import { GroupResponse, GroupsList } from '../models/group.model';
+import {
+  ConversationList,
+  CreateConversation,
+  PeopleList,
+} from '../models/people.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,5 +50,19 @@ export class ApiService {
   deleteGroup(id: string) {
     const params = new HttpParams().set('groupID', id);
     return this.http.delete('groups/delete', { params });
+  }
+
+  loadPeople() {
+    return this.http.get<PeopleList>('users');
+  }
+
+  loadConversations() {
+    return this.http.get<ConversationList>('conversations/list');
+  }
+
+  createConversation(companion: string) {
+    return this.http.post<CreateConversation>('conversations/create', {
+      companion,
+    });
   }
 }

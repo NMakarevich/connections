@@ -1,0 +1,30 @@
+:host {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+
+  .refresh {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-timer {
+      position: absolute;
+      top: 103%;
+    }
+  }
+}
+
+.people-list {
+  list-style: none;
+  height: 80vh;
+  overflow: scroll;
+}

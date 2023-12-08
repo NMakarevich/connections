@@ -1,0 +1,7 @@
+<div class='people-item' [class.has-conversation]='!!conversation'>
+  @if (conversation) {
+    <a [routerLink]='["conversation", conversation.id.S]' class='people-item-name'>{{user.name.S}}</a>
+  } @else {
+    <a class='people-item-name' (click)='createConversation()'>{{user.name.S}}</a>
+  }
+</div>

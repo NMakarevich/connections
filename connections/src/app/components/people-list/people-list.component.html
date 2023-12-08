@@ -1,0 +1,13 @@
+<header class='header'>
+  <div class='refresh'>
+    <app-button [color]='COLOR_BLUE' (click)='refreshList()' [disabled]='refreshTime !== 0'>
+      <span class='material-symbols-outlined'>refresh</span>
+    </app-button>
+    <span *ngIf='refreshTime !== 0' class='refresh-timer'>{{refreshTime}}s</span>
+  </div>
+</header>
+<ul class='people-list' *ngIf='(dataLoaded$ | async) && (peopleList$ | async) as peopleList'>
+  <li *ngFor='let user of peopleList.peopleList'>
+    <app-people-list-item [user]='user' [conversation]='peopleList.conversations[user.uid.S]'></app-people-list-item>
+  </li>
+</ul>

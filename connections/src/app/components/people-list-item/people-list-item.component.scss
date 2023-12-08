@@ -1,0 +1,15 @@
+.people-item {
+  display: flex;
+  border-bottom: 1px solid #1976D2;
+
+  &.has-conversation {
+    background-color: rgba(33, 150, 243, 0.5);
+  }
+
+  &-name {
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+  }
+}

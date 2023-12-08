@@ -22,6 +22,8 @@ import { profileReducers } from './redux/reducers/profile.reducers';
 import * as profileEffects from './redux/effects/profile.effects';
 import { groupsReducers } from './redux/reducers/group.reducers';
 import * as groupsEffects from './redux/effects/group.effects';
+import { peopleReducers } from './redux/reducers/people.reducers';
+import * as peopleEffects from './redux/effects/people.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,8 +37,9 @@ export const appConfig: ApplicationConfig = {
       auth: authReducers,
       profile: profileReducers,
       groups: groupsReducers,
+      people: peopleReducers,
     }),
-    provideEffects([authEffects, profileEffects, groupsEffects]),
+    provideEffects([authEffects, profileEffects, groupsEffects, peopleEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };
