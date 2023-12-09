@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ConversationItem, UserItem } from '../../models/people.model';
