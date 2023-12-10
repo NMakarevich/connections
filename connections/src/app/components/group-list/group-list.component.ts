@@ -7,7 +7,6 @@ import { COLOR_BLUE } from '../../utils/consts';
 import { ModalService } from '../../services/modal.service';
 import { AddGroupComponent } from '../add-group/add-group.component';
 import {
-  loadGroups,
   refreshGroupsList,
   resetGroupTimer,
 } from '../../redux/actions/group.actions';
@@ -43,7 +42,6 @@ export class GroupListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(loadGroups());
     this.groupsList$ = this.store.select(selectGroupsList);
     this.timer().subscribe((value) => {
       this.refreshTime = value;

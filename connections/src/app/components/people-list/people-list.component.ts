@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { interval, map, Observable, switchMap, takeWhile } from 'rxjs';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import {
-  loadPeopleList,
   refreshPeopleList,
   resetPeopleTimer,
 } from '../../redux/actions/people.actions';
@@ -34,7 +33,6 @@ export class PeopleListComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit() {
-    this.store.dispatch(loadPeopleList());
     this.peopleList$ = this.store.select(selectPeopleList);
     this.timer().subscribe((value) => {
       this.refreshTime = value;
