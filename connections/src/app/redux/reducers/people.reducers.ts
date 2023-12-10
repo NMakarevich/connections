@@ -118,3 +118,10 @@ export const selectDataLoaded = createSelector(
   selectPeopleState,
   (state) => state.dataLoaded
 );
+
+export const selectPeopleSource = createSelector(selectPeopleState, (state) =>
+  state.peopleList.Items.reduce(
+    (result, user) => ({ ...result, [user.uid.S]: user }),
+    {}
+  )
+);
