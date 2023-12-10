@@ -9,6 +9,8 @@ import { selectPeopleState } from '../reducers/people.reducers';
 import { NotificationService } from '../../components/UI/notification/notification.service';
 import { ConversationItem } from '../../models/people.model';
 import * as groupActions from '../actions/group.actions';
+import { loadDialog } from '../actions/group-dialog.actions';
+
 export const loadPeople$ = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
@@ -19,6 +21,15 @@ export const loadPeople$ = createEffect(
   { functional: true }
 );
 
+export const loadPeopleForDialog$ = createEffect(
+  (actions$ = inject(Actions)) => {
+    return actions$.pipe(
+      ofType(loadDialog),
+      map(() => peopleActions.loadPeopleList())
+    );
+  },
+  { functional: true }
+);
 
 export const loadPeopleList$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {

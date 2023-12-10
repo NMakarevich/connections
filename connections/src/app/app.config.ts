@@ -24,6 +24,8 @@ import { groupsReducers } from './redux/reducers/group.reducers';
 import * as groupsEffects from './redux/effects/group.effects';
 import { peopleReducers } from './redux/reducers/people.reducers';
 import * as peopleEffects from './redux/effects/people.effects';
+import { dialogReducers } from './redux/reducers/dialog.reducers';
+import * as dialogEffects from './redux/effects/dialog.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,8 +40,15 @@ export const appConfig: ApplicationConfig = {
       profile: profileReducers,
       groups: groupsReducers,
       people: peopleReducers,
+      dialog: dialogReducers,
     }),
-    provideEffects([authEffects, profileEffects, groupsEffects, peopleEffects]),
+    provideEffects([
+      authEffects,
+      profileEffects,
+      groupsEffects,
+      peopleEffects,
+      dialogEffects,
+    ]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

@@ -10,6 +10,7 @@ export const routes: Routes = [
         (c) => c.SignupPageComponent
       ),
     title: 'Registration',
+    canActivate: [authGuard],
   },
   {
     path: 'signin',
@@ -18,6 +19,7 @@ export const routes: Routes = [
         (c) => c.SigninPageComponent
       ),
     title: 'Login',
+    canActivate: [authGuard],
   },
   { path: '', component: MainComponent, canActivate: [authGuard] },
   {
@@ -27,6 +29,15 @@ export const routes: Routes = [
         (c) => c.ProfilePageComponent
       ),
     title: 'Profile',
+    canActivate: [authGuard],
+  },
+  {
+    path: 'group/:groupId',
+    loadComponent: () =>
+      import('./pages/group-dialog-page/group-dialog-page.component').then(
+        (c) => c.GroupDialogPageComponent
+      ),
+    title: 'Group dialog',
     canActivate: [authGuard],
   },
   {

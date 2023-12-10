@@ -12,6 +12,7 @@ import {
   CreateConversation,
   PeopleList,
 } from '../models/people.model';
+import { DialogModel } from '../models/dialog.model';
 
 @Injectable({
   providedIn: 'root',
@@ -64,5 +65,17 @@ export class ApiService {
     return this.http.post<CreateConversation>('conversations/create', {
       companion,
     });
+  }
+
+  loadGroupMessages(id: string, since?: string) {
+    let httpParams: HttpParams;
+    if (since)
+      httpParams = new HttpParams().set('groupID', id).set('since', since);
+    else httpParams = new HttpParams().set('groupID', id);
+    return this.http.get<DialogModel>('groups/read', { params: httpParams });
+  }
+
+  postMessageToDialog(groupID: string, message: string) {
+    return this.http.post('groups/append', { groupID, message });
   }
 }

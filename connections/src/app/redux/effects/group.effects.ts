@@ -8,6 +8,8 @@ import { NotificationService } from '../../components/UI/notification/notificati
 import { selectGroupsState } from '../reducers/group.reducers';
 import { UID } from '../../utils/consts';
 import { ModalService } from '../../services/modal.service';
+import { loadDialog } from '../actions/group-dialog.actions';
+
 export const loadGroups$ = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
@@ -18,6 +20,15 @@ export const loadGroups$ = createEffect(
   { functional: true }
 );
 
+export const loadGroupsForDialog$ = createEffect(
+  (actions$ = inject(Actions)) => {
+    return actions$.pipe(
+      ofType(loadDialog),
+      map(() => groupActions.loadGroups())
+    );
+  },
+  { functional: true }
+);
 
 export const loadGroupsList$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {

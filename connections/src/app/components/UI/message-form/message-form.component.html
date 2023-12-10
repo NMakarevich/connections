@@ -1,0 +1,6 @@
+<form class='form' (ngSubmit)='postMessage()' [formGroup]='messageForm'>
+  <div class='form-field'>
+    <input class='form-input' type='text' name='message' placeholder='Enter message' formControlName='message'>
+  </div>
+  <app-button type='submit' [color]='COLOR_BLUE' [disabled]='messageForm.invalid'>Send</app-button>
+</form>
