@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { GroupListComponent } from '../../components/group-list/group-list.component';
 import { PeopleListComponent } from '../../components/people-list/people-list.component';
-import { loadGroups } from '../../redux/actions/group.actions';
-import { loadPeopleList } from '../../redux/actions/people.actions';
+import { loadMainPage } from '../../redux/actions/group.actions';
 
 @Component({
   selector: 'app-main',
@@ -17,7 +16,6 @@ export class MainComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit() {
-    this.store.dispatch(loadGroups());
-    this.store.dispatch(loadPeopleList());
+    this.store.dispatch(loadMainPage());
   }
 }

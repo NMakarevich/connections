@@ -1,6 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { GroupItem, GroupsList } from '../../models/group.model';
 
+export const loadMainPage = createAction('[Main] Load main page data');
+
 export const loadGroups = createAction('[Group] Load groups list');
 
 export const loadGroupsFromServer = createAction(

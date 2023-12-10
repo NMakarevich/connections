@@ -8,6 +8,17 @@ import * as peopleActions from '../actions/people.actions';
 import { selectPeopleState } from '../reducers/people.reducers';
 import { NotificationService } from '../../components/UI/notification/notification.service';
 import { ConversationItem } from '../../models/people.model';
+import * as groupActions from '../actions/group.actions';
+export const loadPeople$ = createEffect(
+  (actions$ = inject(Actions)) => {
+    return actions$.pipe(
+      ofType(groupActions.loadMainPage),
+      map(() => peopleActions.loadPeopleList())
+    );
+  },
+  { functional: true }
+);
+
 
 export const loadPeopleList$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {
