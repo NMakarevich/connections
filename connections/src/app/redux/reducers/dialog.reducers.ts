@@ -65,7 +65,7 @@ export const dialogReducers = createReducer(
           [dialogId]: {
             ...state.dialogs[dialogId],
             Count: dialog.Count,
-            Items: [...state.dialogs[dialogId]?.Items, ...dialog.Items],
+            Items: [...state.dialogs[dialogId].Items, ...dialog.Items],
           },
         },
       };
