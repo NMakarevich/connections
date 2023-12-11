@@ -125,7 +125,7 @@ export class GroupDialogPageComponent implements OnInit {
     this.store.dispatch(
       dialogActions.postDialogMessage({
         message: message.message,
-        groupId: this.dialogId,
+        dialogId: this.dialogId,
       })
     );
   }

@@ -178,9 +178,9 @@ export const postMessageToDialog$ = createEffect(
   (actions$ = inject(Actions), apiService = inject(ApiService)) => {
     return actions$.pipe(
       ofType(dialogActions.postDialogMessage),
-      switchMap(({ message, groupId }) =>
-        apiService.postMessageToDialog(groupId, message).pipe(
-          map(() => dialogActions.postDialogMessageSuccess({ groupId })),
+      switchMap(({ message, dialogId }) =>
+        apiService.postMessageToDialog(dialogId, message).pipe(
+          map(() => dialogActions.postDialogMessageSuccess({ dialogId })),
           catchError(({ error }) => {
             if (!error.status && error instanceof PointerEvent)
               return of(
@@ -206,12 +206,12 @@ export const postMessageToDialogSuccess$ = createEffect(
   ) => {
     return actions$.pipe(
       ofType(dialogActions.postDialogMessageSuccess),
-      map(({ groupId }) => {
+      map(({ dialogId }) => {
         notificationService.showNotification({
           message: 'Message posted successful',
           type: 'success',
         });
-        return dialogActions.updateDialog({ dialogId: groupId });
+        return dialogActions.updateDialog({ dialogId });
       })
     );
   },
