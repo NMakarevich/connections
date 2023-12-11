@@ -4,9 +4,9 @@ import {
   createSelector,
   on,
 } from '@ngrx/store';
-import { DialogMessage, DialogModel } from '../../models/dialog.model';
+import { DialogModel } from '../../models/dialog.model';
 import * as dialogActions from '../actions/group-dialog.actions';
-import { REFRESH_TIME, UID } from '../../utils/consts';
+import { REFRESH_TIME } from '../../utils/consts';
 
 export interface DialogState {
   dialogs: {
