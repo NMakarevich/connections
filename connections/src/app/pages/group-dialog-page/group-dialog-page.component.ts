@@ -5,10 +5,7 @@ import { interval, map, Observable, switchMap, takeWhile } from 'rxjs';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import * as dialogActions from '../../redux/actions/group-dialog.actions';
 import { MessageWithAuthorName } from '../../models/dialog.model';
-import {
-  selectDialogRefreshTime,
-  selectDialogs,
-} from '../../redux/reducers/dialog.reducers';
+import { selectDialogs } from '../../redux/reducers/dialog.reducers';
 import { MessageComponent } from '../../components/UI/message/message.component';
 import { selectPeopleSource } from '../../redux/reducers/people.reducers';
 import { UserItem } from '../../models/people.model';
@@ -40,6 +37,8 @@ import { DeleteGroupComponent } from '../../components/delete-group/delete-group
 })
 export class GroupDialogPageComponent implements OnInit {
   dialog$!: Observable<MessageWithAuthorName[]>;
+
+  dialogs$ = this.store.select(selectDialogs);
 
   authorId = localStorage.getItem(UID);
 
@@ -85,12 +84,19 @@ export class GroupDialogPageComponent implements OnInit {
 
     this.timer().subscribe((value) => {
       this.refreshTime = value;
-      if (value < 0) this.store.dispatch(dialogActions.resetDialogTimer());
+      if (value < 0)
+        this.store.dispatch(
+          dialogActions.resetDialogTimer({
+            dialogId: this.dialogId,
+          })
+        );
     });
   }
 
   timer() {
-    const refreshTime$ = this.store.select(selectDialogRefreshTime);
+    const refreshTime$ = this.dialogs$.pipe(
+      map((dialogs) => dialogs[this.dialogId]?.refreshTime)
+    );
     const int = interval(1000);
     return refreshTime$.pipe(
       map((time) => Math.ceil((time - new Date().getTime()) / 1000)),

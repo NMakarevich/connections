@@ -101,11 +101,13 @@ export const updateDialog$ = createEffect(
           take(1),
           map((dialogs) => {
             const dialog = dialogs[dialogId];
-            const latestMessageTime = Math.max(
-              ...dialog.Items.map((message) =>
-                parseInt(message.createdAt.S, 10)
-              )
-            ).toString();
+            const latestMessageTime = dialog
+              ? Math.max(
+                  ...dialog.Items.map((message) =>
+                    parseInt(message.createdAt.S, 10)
+                  )
+                ).toString()
+              : '0';
             return {
               dialogId,
               since: latestMessageTime,
@@ -178,9 +180,7 @@ export const postMessageToDialog$ = createEffect(
       ofType(dialogActions.postDialogMessage),
       switchMap(({ message, groupId }) =>
         apiService.postMessageToDialog(groupId, message).pipe(
-          map(() =>
-            dialogActions.postDialogMessageSuccess({ groupId, message })
-          ),
+          map(() => dialogActions.postDialogMessageSuccess({ groupId })),
           catchError(({ error }) => {
             if (!error.status && error instanceof PointerEvent)
               return of(
