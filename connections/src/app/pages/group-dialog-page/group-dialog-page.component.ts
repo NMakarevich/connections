@@ -17,6 +17,7 @@ import { MessageFormComponent } from '../../components/UI/message-form/message-f
 import { selectGroupsList } from '../../redux/reducers/group.reducers';
 import { ModalService } from '../../services/modal.service';
 import { DeleteGroupComponent } from '../../components/delete-group/delete-group.component';
+import { AutoHeightDirective } from '../../directives/auto-height.directive';
 
 @Component({
   selector: 'app-group-dialog-page',
@@ -31,6 +32,7 @@ import { DeleteGroupComponent } from '../../components/delete-group/delete-group
     ScrollToBottomDirective,
     MessageFormComponent,
     RouterLink,
+    AutoHeightDirective,
   ],
   templateUrl: './group-dialog-page.component.html',
   styleUrl: './group-dialog-page.component.scss',
