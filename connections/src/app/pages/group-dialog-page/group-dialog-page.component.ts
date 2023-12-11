@@ -101,7 +101,7 @@ export class GroupDialogPageComponent implements OnInit {
 
   updateMessages() {
     this.store.dispatch(
-      dialogActions.updateDialog({
+      dialogActions.refreshDialog({
         dialogId: this.route.snapshot.params['groupId'],
       })
     );

@@ -36,6 +36,11 @@ export const updateDialogError = createAction(
   props<{ message: string }>()
 );
 
+export const refreshDialog = createAction(
+  '[Dialog] Refresh dialog',
+  props<{ dialogId: string }>()
+);
+
 export const resetDialogTimer = createAction('[Dialog] Reset dialog timer');
 
 export const postDialogMessage = createAction(
@@ -51,9 +56,4 @@ export const postDialogMessageSuccess = createAction(
 export const postDialogMessageError = createAction(
   '[Dialog] Post dialog error',
   props<{ message: string }>()
-);
-
-export const deleteDialog = createAction(
-  '[Dialog] Delete dialog',
-  props<{ id: string }>()
 );

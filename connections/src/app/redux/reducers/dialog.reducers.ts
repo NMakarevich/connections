@@ -35,9 +35,13 @@ export const dialogReducers = createReducer(
       };
     }
   ),
-  on(dialogActions.updateDialog, (state): DialogState => {
+  on(dialogActions.refreshDialog, (state): DialogState => {
     const time = new Date().getTime() + REFRESH_TIME;
     return { ...state, refreshTime: time };
+  }),
+  on(dialogActions.updateDialogError, (state): DialogState => {
+    if (state.refreshTime !== 0) return { ...state, refreshTime: 0 };
+    return state;
   }),
   on(
     dialogActions.updateDialogSuccess,
@@ -52,7 +56,6 @@ export const dialogReducers = createReducer(
             Items: [...state.dialogs[dialogId].Items, ...dialog.Items],
           },
         },
-        refreshTime: new Date().getTime() + REFRESH_TIME,
       };
     }
   ),

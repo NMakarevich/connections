@@ -18,10 +18,7 @@ export const loadDialog$ = createEffect(
           take(1),
           map((dialogs) => {
             if (dialogs[dialogId])
-              return dialogActions.loadDialogSuccess({
-                dialog: dialogs[dialogId],
-                dialogId,
-              });
+              return dialogActions.updateDialog({ dialogId });
             return dialogActions.loadDialogFromServer({ dialogId });
           })
         )
@@ -98,7 +95,7 @@ export const updateDialog$ = createEffect(
     store = inject(Store)
   ) => {
     return actions$.pipe(
-      ofType(dialogActions.updateDialog),
+      ofType(dialogActions.updateDialog, dialogActions.refreshDialog),
       switchMap(({ dialogId }) =>
         store.select(selectDialogs).pipe(
           take(1),
@@ -209,15 +206,16 @@ export const postMessageToDialogSuccess$ = createEffect(
   ) => {
     return actions$.pipe(
       ofType(dialogActions.postDialogMessageSuccess),
-      tap(() =>
+      map(({ groupId }) => {
         notificationService.showNotification({
           message: 'Message posted successful',
           type: 'success',
-        })
-      )
+        });
+        return dialogActions.updateDialog({ dialogId: groupId });
+      })
     );
   },
-  { functional: true, dispatch: false }
+  { functional: true }
 );
 
 export const postMessageToDialogError$ = createEffect(
