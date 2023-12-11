@@ -36,7 +36,7 @@ export class PeopleListComponent implements OnInit {
     this.peopleList$ = this.store.select(selectPeopleList);
     this.timer().subscribe((value) => {
       this.refreshTime = value;
-      if (value <= 0) this.store.dispatch(resetPeopleTimer());
+      if (value < 0) this.store.dispatch(resetPeopleTimer());
     });
   }
 
