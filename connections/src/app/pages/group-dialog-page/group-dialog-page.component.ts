@@ -43,6 +43,8 @@ export class GroupDialogPageComponent implements OnInit {
 
   authorId = localStorage.getItem(UID);
 
+  dialogId = '';
+
   isOwner$!: Observable<boolean>;
 
   refreshTime = 0;
@@ -54,10 +56,10 @@ export class GroupDialogPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const { groupId } = this.route.snapshot.params;
-    this.store.dispatch(dialogActions.loadDialog({ dialogId: groupId }));
-    this.dialog$ = this.store.select(selectDialogs).pipe(
-      map((dialogs) => dialogs[groupId]?.Items),
+    this.dialogId = this.route.snapshot.params['groupId'];
+    this.store.dispatch(dialogActions.loadDialog({ dialogId: this.dialogId }));
+    this.dialog$ = this.dialogs$.pipe(
+      map((dialogs) => dialogs[this.dialogId]?.Items),
       switchMap((dialog) =>
         this.store.select(selectPeopleSource).pipe(
           map(
@@ -73,7 +75,9 @@ export class GroupDialogPageComponent implements OnInit {
 
     this.isOwner$ = this.store.select(selectGroupsList).pipe(
       map((groups) => {
-        const group = groups.find((groupItem) => groupItem.id.S === groupId);
+        const group = groups.find(
+          (groupItem) => groupItem.id.S === this.dialogId
+        );
         if (group) return group.createdBy.S === localStorage.getItem(UID);
         return false;
       })
@@ -102,23 +106,20 @@ export class GroupDialogPageComponent implements OnInit {
   updateMessages() {
     this.store.dispatch(
       dialogActions.refreshDialog({
-        dialogId: this.route.snapshot.params['groupId'],
+        dialogId: this.dialogId,
       })
     );
   }
 
   deleteDialog() {
-    this.modalService.open(
-      DeleteGroupComponent,
-      this.route.snapshot.params['groupId']
-    );
+    this.modalService.open(DeleteGroupComponent, this.dialogId);
   }
 
   getMessage(message: { message: string }) {
     this.store.dispatch(
       dialogActions.postDialogMessage({
         message: message.message,
-        groupId: this.route.snapshot.params['groupId'],
+        groupId: this.dialogId,
       })
     );
   }
