@@ -41,6 +41,15 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'conversation/:conversationId',
+    loadComponent: () =>
+      import(
+        './pages/conversation-dialog-page/conversation-dialog-page.component'
+      ).then((c) => c.ConversationDialogPageComponent),
+    title: 'Conversation dialog',
+    canActivate: [authGuard],
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('./pages/not-found-page/not-found-page.component').then(

@@ -78,4 +78,25 @@ export class ApiService {
   postMessageToDialog(groupID: string, message: string) {
     return this.http.post('groups/append', { groupID, message });
   }
+
+  loadConversationMessages(id: string, since?: string) {
+    let httpParams: HttpParams;
+    if (since)
+      httpParams = new HttpParams()
+        .set('conversationID', id)
+        .set('since', since);
+    else httpParams = new HttpParams().set('conversationID', id);
+    return this.http.get<DialogModel>('conversations/read', {
+      params: httpParams,
+    });
+  }
+
+  postMessageToConversation(conversationID: string, message: string) {
+    return this.http.post('conversations/append', { conversationID, message });
+  }
+
+  deleteConversation(id: string) {
+    const params = new HttpParams().set('conversationID', id);
+    return this.http.delete('conversations/delete', { params });
+  }
 }
