@@ -232,7 +232,7 @@ export const createConversationSuccess$ = createEffect(
           message: 'Conversation create success',
           type: 'success',
         });
-        router.navigate(['conversations', conversation.id.S]);
+        router.navigate(['conversation', conversation.id.S]);
       })
     );
   },
