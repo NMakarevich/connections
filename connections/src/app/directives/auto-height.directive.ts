@@ -24,7 +24,7 @@ export class AutoHeightDirective implements AfterViewInit {
     if (this.nextElement) {
       const nextElem = this.elementRef.nativeElement.nextElementSibling;
       const nextElemRect = nextElem.getBoundingClientRect();
-      nextElemHeight = nextElemRect.height + (nextElemRect.top - rect.bottom);
+      nextElemHeight = nextElemRect.height + 25;
     }
     const height = `${window.innerHeight - rect.top - nextElemHeight}px`;
     this.renderer.setStyle(this.elementRef.nativeElement, 'height', height);
