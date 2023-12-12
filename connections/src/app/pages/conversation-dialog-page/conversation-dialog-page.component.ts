@@ -16,6 +16,8 @@ import * as conversationActions from '../../redux/actions/conversation-dialog.ac
 import { selectConversations } from '../../redux/reducers/conversation.reducers';
 import { selectPeopleSource } from '../../redux/reducers/people.reducers';
 import { UserItem } from '../../models/people.model';
+import { DeleteComponent } from '../../components/delete/delete.component';
+import { deleteConversation } from '../../redux/actions/conversation-dialog.actions';
 
 @Component({
   selector: 'app-conversation-dialog-page',
@@ -119,7 +121,12 @@ export class ConversationDialogPageComponent implements OnInit {
     );
   }
 
-  deleteConversation() {}
+  deleteConversation() {
+    this.modalService.open(DeleteComponent, {
+      text: 'conversation',
+      action: deleteConversation({ id: this.conversationId }),
+    });
+  }
 
   protected readonly COLOR_BLUE = COLOR_BLUE;
 }

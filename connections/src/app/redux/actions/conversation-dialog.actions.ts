@@ -60,3 +60,18 @@ export const postConversationMessageError = createAction(
   '[Conversation] Post conversation error',
   props<{ message: string }>()
 );
+
+export const deleteConversation = createAction(
+  '[Group] Delete conversation',
+  props<{ id: string }>()
+);
+
+export const deleteConversationSuccess = createAction(
+  '[Group] Delete conversation success',
+  props<{ id: string }>()
+);
+
+export const deleteConversationError = createAction(
+  '[Group] Delete conversation error',
+  props<{ message: string }>()
+);

@@ -2,6 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { catchError, map, of, switchMap, take, tap } from 'rxjs';
+import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import * as conversationActions from '../actions/conversation-dialog.actions';
 import { selectConversations } from '../reducers/conversation.reducers';
@@ -255,14 +256,61 @@ export const postMessageToConversationError$ = createEffect(
   { functional: true, dispatch: false }
 );
 
-// export const deleteConversationSuccess$ = createEffect(
-//   (actions$ = inject(Actions), router = inject(Router)) => {
-//     return actions$.pipe(
-//       ofType(del),
-//       tap(() => {
-//         router.navigate(['/']);
-//       })
-//     );
-//   },
-//   { functional: true, dispatch: false }
-// );
+export const deleteConversation$ = createEffect(
+  (actions$ = inject(Actions), apiService = inject(ApiService)) => {
+    return actions$.pipe(
+      ofType(conversationActions.deleteConversation),
+      switchMap(({ id }) =>
+        apiService.deleteConversation(id).pipe(
+          map(() => conversationActions.deleteConversationSuccess({ id })),
+          catchError(({ error }) =>
+            of(
+              conversationActions.deleteConversationError({
+                message: error.message,
+              })
+            )
+          )
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const deleteConversationSuccess$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    notificationService = inject(NotificationService),
+    router = inject(Router)
+  ) => {
+    return actions$.pipe(
+      ofType(conversationActions.deleteConversationSuccess),
+      tap(() => {
+        notificationService.showNotification({
+          message: 'Conversation deleted successful',
+          type: 'success',
+        });
+        router.navigate(['/']);
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);
+
+export const deleteConversationError$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    notificationService = inject(NotificationService)
+  ) => {
+    return actions$.pipe(
+      ofType(conversationActions.deleteConversationError),
+      tap(({ message }) =>
+        notificationService.showNotification({
+          message,
+          type: 'error',
+        })
+      )
+    );
+  },
+  { functional: true, dispatch: false }
+);
