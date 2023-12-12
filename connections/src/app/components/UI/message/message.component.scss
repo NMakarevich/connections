@@ -27,6 +27,6 @@
 
   &-text {
     display: flex;
-    flex-wrap: wrap;
+    overflow-wrap: anywhere;
   }
 }
