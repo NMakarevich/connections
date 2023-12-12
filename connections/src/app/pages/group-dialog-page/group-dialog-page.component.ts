@@ -16,8 +16,9 @@ import { ScrollToBottomDirective } from '../../directives/scroll-to-bottom.direc
 import { MessageFormComponent } from '../../components/UI/message-form/message-form.component';
 import { selectGroupsList } from '../../redux/reducers/group.reducers';
 import { ModalService } from '../../services/modal.service';
-import { DeleteGroupComponent } from '../../components/delete-group/delete-group.component';
+import { DeleteComponent } from '../../components/delete/delete.component';
 import { AutoHeightDirective } from '../../directives/auto-height.directive';
+import { deleteGroup } from '../../redux/actions/group.actions';
 
 @Component({
   selector: 'app-group-dialog-page',
@@ -120,7 +121,10 @@ export class GroupDialogPageComponent implements OnInit {
   }
 
   deleteDialog() {
-    this.modalService.open(DeleteGroupComponent, this.dialogId);
+    this.modalService.open(DeleteComponent, {
+      text: 'dialog',
+      action: deleteGroup({ id: this.dialogId }),
+    });
   }
 
   getMessage(message: { message: string }) {

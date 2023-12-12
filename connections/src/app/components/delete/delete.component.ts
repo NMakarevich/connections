@@ -3,16 +3,17 @@ import { Store } from '@ngrx/store';
 import { ButtonComponent } from '../UI/button/button.component';
 import { COLOR_BLUE, COLOR_RED } from '../../utils/consts';
 import { ModalService } from '../../services/modal.service';
-import { deleteGroup } from '../../redux/actions/group.actions';
 
 @Component({
-  selector: 'app-delete-group',
+  selector: 'app-delete',
   standalone: true,
   imports: [ButtonComponent],
-  templateUrl: './delete-group.component.html',
-  styleUrl: './delete-group.component.scss',
+  templateUrl: './delete.component.html',
+  styleUrl: './delete.component.scss',
 })
-export class DeleteGroupComponent {
+export class DeleteComponent {
+  text = this.modalService.params.text;
+
   constructor(
     private readonly modalService: ModalService,
     private readonly store: Store
@@ -23,10 +24,8 @@ export class DeleteGroupComponent {
   }
 
   delete() {
-    if (typeof this.modalService.params === 'string') {
-      this.store.dispatch(deleteGroup({ id: this.modalService.params }));
-      this.modalService.close();
-    }
+    this.store.dispatch(this.modalService.params.action);
+    this.modalService.close();
   }
 
   protected readonly COLOR_RED = COLOR_RED;

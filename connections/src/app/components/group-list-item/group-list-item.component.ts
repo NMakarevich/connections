@@ -4,7 +4,8 @@ import { RouterLink } from '@angular/router';
 import { GroupItem } from '../../models/group.model';
 import { UID } from '../../utils/consts';
 import { ModalService } from '../../services/modal.service';
-import { DeleteGroupComponent } from '../delete-group/delete-group.component';
+import { DeleteComponent } from '../delete/delete.component';
+import { deleteGroup } from '../../redux/actions/group.actions';
 
 @Component({
   selector: 'app-group-list-item',
@@ -25,6 +26,9 @@ export class GroupListItemComponent implements OnInit {
   }
 
   deleteGroup() {
-    this.modalService.open(DeleteGroupComponent, this.groupItem.id.S);
+    this.modalService.open(DeleteComponent, {
+      text: 'group',
+      action: deleteGroup({ id: this.groupItem.id.S }),
+    });
   }
 }

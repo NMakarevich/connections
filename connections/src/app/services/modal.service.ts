@@ -6,6 +6,7 @@ import {
   Injectable,
   Type,
 } from '@angular/core';
+import { Action } from '@ngrx/store';
 import { ModalComponent } from '../components/UI/modal/modal.component';
 
 @Injectable({
@@ -14,14 +15,14 @@ import { ModalComponent } from '../components/UI/modal/modal.component';
 export class ModalService {
   modalComponent!: ComponentRef<ModalComponent>;
 
-  params!: unknown;
+  params!: { text: string; action: Action };
 
   constructor(
     private readonly injector: EnvironmentInjector,
     private readonly appRef: ApplicationRef
   ) {}
 
-  open(component: Type<unknown>, params?: unknown) {
+  open(component: Type<unknown>, params?: { text: string; action: Action }) {
     if (params) this.params = params;
     const modalContent = createComponent(component, {
       environmentInjector: this.injector,
