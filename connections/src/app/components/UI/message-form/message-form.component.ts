@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { NgIf } from '@angular/common';
 import { ButtonComponent } from '../button/button.component';
 import { COLOR_BLUE } from '../../../utils/consts';
 
@@ -17,7 +18,7 @@ interface Message {
 @Component({
   selector: 'app-message-form',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, ButtonComponent],
+  imports: [FormsModule, ReactiveFormsModule, ButtonComponent, NgIf],
   templateUrl: './message-form.component.html',
   styleUrl: './message-form.component.scss',
 })
