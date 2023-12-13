@@ -4,7 +4,7 @@ export function validateName(
   control: AbstractControl
 ): null | ValidationErrors {
   const { value } = control;
-  return /^[a-zA-Z,\s]+$/gm.test(value)
+  return /[\p{L}\s]+/gmu.test(value)
     ? null
     : { invalidName: { message: 'Name could be any of letters or spaces' } };
 }
@@ -84,7 +84,7 @@ export function validateGroupName(
   control: AbstractControl
 ): ValidationErrors | null {
   const { value } = control;
-  return /^[a-zA-Z\d\s]+$/gm.test(value)
+  return /[\p{L}\s\d]+/gmu.test(value)
     ? null
     : {
         invalidGroupName: {
