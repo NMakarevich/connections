@@ -1,12 +1,13 @@
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn, CanMatchFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { TOKEN } from '../../utils/consts';
 
-export const authGuard: CanActivateFn = (route) => {
+export const authGuard: CanActivateFn = () => {
   const isAuth = localStorage.getItem(TOKEN);
-  const authURLs = ['signin', 'signup'];
-  const [urlSegment] = route.url;
-  if (isAuth && authURLs.includes(urlSegment?.path))
-    inject(Router).navigate(['']);
   return isAuth ? true : inject(Router).createUrlTree(['signin']);
+};
+
+export const matchGuard: CanMatchFn = () => {
+  const isAuth = localStorage.getItem(TOKEN);
+  return !isAuth ? true : inject(Router).navigate(['']);
 };

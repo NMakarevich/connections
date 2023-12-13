@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainComponent } from './pages/main/main.component';
-import { authGuard } from './pages/auth/auth.guard';
+import { authGuard, matchGuard } from './pages/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -10,7 +10,7 @@ export const routes: Routes = [
         (c) => c.SignupPageComponent
       ),
     title: 'Registration',
-    canActivate: [authGuard],
+    canMatch: [matchGuard],
   },
   {
     path: 'signin',
@@ -19,7 +19,7 @@ export const routes: Routes = [
         (c) => c.SigninPageComponent
       ),
     title: 'Login',
-    canActivate: [authGuard],
+    canMatch: [matchGuard],
   },
   { path: '', component: MainComponent, canActivate: [authGuard] },
   {
