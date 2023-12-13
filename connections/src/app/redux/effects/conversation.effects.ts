@@ -7,6 +7,7 @@ import { ApiService } from '../../services/api.service';
 import * as conversationActions from '../actions/conversation-dialog.actions';
 import { selectConversations } from '../reducers/conversation.reducers';
 import { NotificationService } from '../../components/UI/notification/notification.service';
+import { ModalService } from '../../services/modal.service';
 
 export const loadConversation$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {
@@ -281,11 +282,13 @@ export const deleteConversationSuccess$ = createEffect(
   (
     actions$ = inject(Actions),
     notificationService = inject(NotificationService),
-    router = inject(Router)
+    router = inject(Router),
+    modalService = inject(ModalService)
   ) => {
     return actions$.pipe(
       ofType(conversationActions.deleteConversationSuccess),
       tap(() => {
+        modalService.close();
         notificationService.showNotification({
           message: 'Conversation deleted successful',
           type: 'success',

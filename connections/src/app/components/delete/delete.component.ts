@@ -25,7 +25,6 @@ export class DeleteComponent {
 
   delete() {
     this.store.dispatch(this.modalService.params.action);
-    this.modalService.close();
   }
 
   protected readonly COLOR_RED = COLOR_RED;

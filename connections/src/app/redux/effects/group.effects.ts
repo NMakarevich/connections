@@ -200,16 +200,18 @@ export const deleteGroup$ = createEffect(
 export const deleteGroupSuccess$ = createEffect(
   (
     actions$ = inject(Actions),
-    notificationService = inject(NotificationService)
+    notificationService = inject(NotificationService),
+    modalService = inject(ModalService)
   ) => {
     return actions$.pipe(
       ofType(groupActions.deleteGroupSuccess),
-      tap(() =>
+      tap(() => {
+        modalService.close();
         notificationService.showNotification({
           message: 'Group deleted successful',
           type: 'success',
-        })
-      )
+        });
+      })
     );
   },
   { functional: true, dispatch: false }

@@ -8,6 +8,7 @@ import * as dialogActions from '../actions/group-dialog.actions';
 import { selectDialogs } from '../reducers/dialog.reducers';
 import { NotificationService } from '../../components/UI/notification/notification.service';
 import { deleteGroupSuccess } from '../actions/group.actions';
+import { ModalService } from '../../services/modal.service';
 
 export const loadDialog$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {
@@ -237,10 +238,15 @@ export const postMessageToDialogError$ = createEffect(
 );
 
 export const deleteDialog$ = createEffect(
-  (actions$ = inject(Actions), router = inject(Router)) => {
+  (
+    actions$ = inject(Actions),
+    router = inject(Router),
+    modalService = inject(ModalService)
+  ) => {
     return actions$.pipe(
       ofType(deleteGroupSuccess),
       tap(() => {
+        modalService.close();
         router.navigate(['/']);
       })
     );
