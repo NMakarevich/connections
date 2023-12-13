@@ -23,6 +23,11 @@
     padding: 10px;
     background-color: #1976D2;
     color: white;
+    transition: transform 0.4s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   .delete-group {

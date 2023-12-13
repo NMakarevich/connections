@@ -2,12 +2,13 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 30px
+  gap: 30px;
+  box-shadow: 0 0 3px 0 #1976D2;
 }
 
 .header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 
   .refresh {
     position: relative;
