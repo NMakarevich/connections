@@ -9,6 +9,7 @@ import { selectGroupsState } from '../reducers/group.reducers';
 import { UID } from '../../utils/consts';
 import { ModalService } from '../../services/modal.service';
 import { loadDialog } from '../actions/group-dialog.actions';
+import { forceLogout } from '../actions/auth.actions';
 
 export const loadGroups$ = createEffect(
   (actions$ = inject(Actions)) => {
@@ -65,6 +66,8 @@ export const loadGroupsListFromServer$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(groupActions.loadGroupsError({ message: error.message }));
           })
         )
@@ -135,9 +138,19 @@ export const createGroup$ = createEffect(
               },
             });
           }),
-          catchError(({ error }) =>
-            of(groupActions.createGroupError({ message: error.message }))
-          )
+          catchError(({ error }) => {
+            if (!error.status && error instanceof ProgressEvent)
+              return of(
+                groupActions.createGroupError({
+                  message: 'No internet connection',
+                })
+              );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
+            return of(
+              groupActions.createGroupError({ message: error.message })
+            );
+          })
         )
       )
     );
@@ -187,9 +200,19 @@ export const deleteGroup$ = createEffect(
       switchMap(({ id }) =>
         apiService.deleteGroup(id).pipe(
           map(() => groupActions.deleteGroupSuccess({ id })),
-          catchError(({ error }) =>
-            of(groupActions.deleteGroupError({ message: error.message }))
-          )
+          catchError(({ error }) => {
+            if (!error.status && error instanceof ProgressEvent)
+              return of(
+                groupActions.deleteGroupError({
+                  message: 'No internet connection',
+                })
+              );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
+            return of(
+              groupActions.deleteGroupError({ message: error.message })
+            );
+          })
         )
       )
     );

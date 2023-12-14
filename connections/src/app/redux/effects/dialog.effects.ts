@@ -9,6 +9,7 @@ import { selectDialogs } from '../reducers/dialog.reducers';
 import { NotificationService } from '../../components/UI/notification/notification.service';
 import { deleteGroupSuccess } from '../actions/group.actions';
 import { ModalService } from '../../services/modal.service';
+import { forceLogout } from '../actions/auth.actions';
 
 export const loadDialog$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {
@@ -45,6 +46,8 @@ export const loadDialogFromServer$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               dialogActions.loadDialogError({ message: error.message })
             );
@@ -128,6 +131,8 @@ export const updateDialog$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               dialogActions.updateDialogError({ message: error.message })
             );
@@ -189,6 +194,8 @@ export const postMessageToDialog$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               dialogActions.postDialogMessageError({ message: error.message })
             );

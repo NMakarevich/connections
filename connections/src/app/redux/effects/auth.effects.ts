@@ -171,3 +171,24 @@ export const logoutError$ = createEffect(
   },
   { functional: true, dispatch: false }
 );
+
+export const forceLogout$ = createEffect(
+  (
+    actions$ = inject(Actions),
+    router = inject(Router),
+    notificationService = inject(NotificationService)
+  ) => {
+    return actions$.pipe(
+      ofType(authActions.forceLogout),
+      tap(({ message }) => {
+        notificationService.showNotification({
+          message,
+          type: 'error',
+        });
+        localStorage.clear();
+        router.navigate(['signin']);
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);

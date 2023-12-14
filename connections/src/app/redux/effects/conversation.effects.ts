@@ -8,6 +8,7 @@ import * as conversationActions from '../actions/conversation-dialog.actions';
 import { selectConversations } from '../reducers/conversation.reducers';
 import { NotificationService } from '../../components/UI/notification/notification.service';
 import { ModalService } from '../../services/modal.service';
+import { forceLogout } from '../actions/auth.actions';
 
 export const loadConversation$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {
@@ -49,6 +50,8 @@ export const loadConversationFromServer$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               conversationActions.loadConversationError({
                 message: error.message,
@@ -140,6 +143,8 @@ export const updateConversation$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               conversationActions.updateConversationError({
                 message: error.message,
@@ -207,6 +212,8 @@ export const postMessageToConversation$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               conversationActions.postConversationMessageError({
                 message: error.message,

@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 import * as profileActions from '../actions/profile.actions';
 import { selectProfile } from '../reducers/profile.reducers';
 import { NotificationService } from '../../components/UI/notification/notification.service';
+import { forceLogout } from '../actions/auth.actions';
 
 export const loadProfile$ = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {
@@ -40,6 +41,8 @@ export const loadProfileFromServer$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               profileActions.loadProfileError({ message: error.message })
             );
@@ -80,6 +83,8 @@ export const updateProfile$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               profileActions.updateProfileError({ message: error.message })
             );

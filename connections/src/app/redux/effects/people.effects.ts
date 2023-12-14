@@ -10,6 +10,7 @@ import { NotificationService } from '../../components/UI/notification/notificati
 import { ConversationItem } from '../../models/people.model';
 import * as groupActions from '../actions/group.actions';
 import { loadDialog } from '../actions/group-dialog.actions';
+import { forceLogout } from '../actions/auth.actions';
 
 export const loadPeople$ = createEffect(
   (actions$ = inject(Actions)) => {
@@ -68,6 +69,8 @@ export const loadPeopleListFromServer$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               peopleActions.loadPeopleListError({ message: error.message })
             );
@@ -95,6 +98,8 @@ export const loadConversationsList$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               peopleActions.loadConversationListError({
                 message: error.message,
@@ -206,6 +211,8 @@ export const createConversation$ = createEffect(
                   message: 'No internet connection',
                 })
               );
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
             return of(
               peopleActions.createConversationError({
                 message: error.message,

@@ -40,3 +40,8 @@ export const logoutError = createAction(
   '[Auth] Logout error',
   props<{ message: string }>()
 );
+
+export const forceLogout = createAction(
+  '[Auth] Force logout due invalid token',
+  props<{ message: string }>()
+);
