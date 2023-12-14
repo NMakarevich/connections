@@ -24,7 +24,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 400px;
+  max-width: 400px;
   padding: 20px;
   box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
@@ -63,4 +63,9 @@ body {
   &-submit {
     align-self: flex-end;
   }
+}
+
+.link {
+  text-decoration: none;
+  color: #1976D2;
 }
