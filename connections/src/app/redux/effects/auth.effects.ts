@@ -155,13 +155,18 @@ export const logoutSuccess$ = createEffect(
 export const logoutError$ = createEffect(
   (
     actions$ = inject(Actions),
-    notificationService = inject(NotificationService)
+    notificationService = inject(NotificationService),
+    router = inject(Router)
   ) => {
     return actions$.pipe(
       ofType(authActions.logoutError),
-      tap(({ message }) =>
-        notificationService.showNotification({ message, type: 'error' })
-      )
+      tap(({ message }) => {
+        if (message === 'Current session token is not valid.') {
+          localStorage.clear();
+          router.navigate(['signin']);
+        }
+        notificationService.showNotification({ message, type: 'error' });
+      })
     );
   },
   { functional: true, dispatch: false }
