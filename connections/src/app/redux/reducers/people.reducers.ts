@@ -11,7 +11,7 @@ import {
   PeopleListWithConversations,
 } from '../../models/people.model';
 import * as peopleActions from '../actions/people.actions';
-import { REFRESH_TIME } from '../../utils/consts';
+import { REFRESH_TIME, UID } from '../../utils/consts';
 
 export interface PeopleState {
   peopleList: PeopleList;
@@ -41,7 +41,9 @@ export const peopleReducers = createReducer(
       ...state,
       peopleList: {
         Count: peopleList.Count,
-        Items: peopleList.Items.map((item) => ({
+        Items: peopleList.Items.filter(
+          (user) => user.uid.S !== localStorage.getItem(UID)
+        ).map((item) => ({
           ...item,
           hasConversation: false,
         })),
