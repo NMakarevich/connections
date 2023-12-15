@@ -25,9 +25,17 @@ export const loadConversationList = createAction(
   '[People] Load conversation list'
 );
 
+export const loadConversationListFromServer = createAction(
+  '[People] Load conversation list'
+);
+
 export const loadConversationListSuccess = createAction(
   '[People] Load conversation list success',
   props<{ conversationList: ConversationList }>()
+);
+
+export const loadConversationListEarly = createAction(
+  '[People] Conversation list was loaded early'
 );
 
 export const loadConversationListError = createAction(

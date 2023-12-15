@@ -82,10 +82,32 @@ export const loadPeopleListFromServer$ = createEffect(
   { functional: true }
 );
 
-export const loadConversationsList$ = createEffect(
+export const loadConversationList$ = createEffect(
+  (actions$ = inject(Actions), store = inject(Store)) => {
+    return actions$.pipe(
+      ofType(peopleActions.loadPeopleList),
+      switchMap(() =>
+        store.select(selectPeopleState).pipe(
+          take(1),
+          map((state) => {
+            if (state.dataLoaded)
+              return peopleActions.loadConversationListEarly();
+            return peopleActions.loadConversationListFromServer();
+          })
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const loadConversationsListFromServer$ = createEffect(
   (actions$ = inject(Actions), apiService = inject(ApiService)) => {
     return actions$.pipe(
-      ofType(peopleActions.loadConversationList),
+      ofType(
+        peopleActions.loadConversationListFromServer,
+        peopleActions.refreshPeopleList
+      ),
       switchMap(() =>
         apiService.loadConversations().pipe(
           map((conversationList) =>
@@ -116,13 +138,11 @@ export const loadConversationsList$ = createEffect(
 export const loadPeopleListSuccess$ = createEffect(
   (
     actions$ = inject(Actions),
-    notificationService = inject(NotificationService),
-    store = inject(Store)
+    notificationService = inject(NotificationService)
   ) => {
     return actions$.pipe(
       ofType(peopleActions.loadPeopleListSuccess),
       tap(() => {
-        store.dispatch(peopleActions.loadConversationList());
         notificationService.showNotification({
           message: 'People list loaded success',
           type: 'success',
