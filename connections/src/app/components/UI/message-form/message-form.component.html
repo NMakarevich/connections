@@ -1,6 +1,6 @@
 <form class='form' (ngSubmit)='postMessage()' [formGroup]='messageForm'>
   <div class='form-field'>
-    <input class='form-input' type='text' name='message' placeholder='Enter message' formControlName='message'>
+    <input class='form-input' type='text' name='message' placeholder='Enter message' (keydown.enter)='postMessage()' formControlName='message'>
     <ul class='validation' *ngIf='message.invalid && (message.touched || message.dirty)'>
       <li class='validation-item' *ngIf='message.errors?.["required"]'>
         Please enter a message

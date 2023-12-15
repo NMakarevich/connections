@@ -38,8 +38,10 @@ export class MessageFormComponent {
   }
 
   postMessage() {
-    this.sendMessage.emit(this.messageForm.getRawValue());
-    this.messageForm.reset();
+    if (this.messageForm.valid) {
+      this.sendMessage.emit(this.messageForm.getRawValue());
+      this.messageForm.reset();
+    }
   }
 
   protected readonly COLOR_BLUE = COLOR_BLUE;
