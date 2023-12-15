@@ -11,6 +11,7 @@ import { ConversationItem } from '../../models/people.model';
 import * as groupActions from '../actions/group.actions';
 import { loadDialog } from '../actions/group-dialog.actions';
 import { forceLogout } from '../actions/auth.actions';
+import { loadConversation } from '../actions/conversation-dialog.actions';
 
 export const loadPeople$ = createEffect(
   (actions$ = inject(Actions)) => {
@@ -25,7 +26,7 @@ export const loadPeople$ = createEffect(
 export const loadPeopleForDialog$ = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
-      ofType(loadDialog),
+      ofType(loadDialog, loadConversation),
       map(() => peopleActions.loadPeopleList())
     );
   },
