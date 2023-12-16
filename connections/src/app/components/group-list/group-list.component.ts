@@ -45,7 +45,7 @@ export class GroupListComponent implements OnInit {
     this.groupsList$ = this.store.select(selectGroupsList);
     this.timer().subscribe((value) => {
       this.refreshTime = value;
-      if (value < 0) this.store.dispatch(resetGroupTimer());
+      if (value <= 0) this.store.dispatch(resetGroupTimer());
     });
   }
 

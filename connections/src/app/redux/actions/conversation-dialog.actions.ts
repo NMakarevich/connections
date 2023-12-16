@@ -33,16 +33,11 @@ export const updateConversationSuccess = createAction(
 
 export const updateConversationError = createAction(
   '[Conversation] Load conversation error',
-  props<{ message: string }>()
+  props<{ message: string; conversationId: string }>()
 );
 
 export const refreshConversation = createAction(
   '[Conversation] Refresh conversation',
-  props<{ conversationId: string }>()
-);
-
-export const setConversationTimer = createAction(
-  '[Conversation] Set dialog timer',
   props<{ conversationId: string }>()
 );
 

@@ -33,16 +33,11 @@ export const updateDialogSuccess = createAction(
 
 export const updateDialogError = createAction(
   '[Dialog] Load dialog error',
-  props<{ message: string }>()
+  props<{ message: string; dialogId: string }>()
 );
 
 export const refreshDialog = createAction(
   '[Dialog] Refresh dialog',
-  props<{ dialogId: string }>()
-);
-
-export const setDialogTimer = createAction(
-  '[Dialog] Set dialog timer',
   props<{ dialogId: string }>()
 );
 

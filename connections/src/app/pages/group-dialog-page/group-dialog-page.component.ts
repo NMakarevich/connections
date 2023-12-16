@@ -87,7 +87,7 @@ export class GroupDialogPageComponent implements OnInit {
 
     this.timer().subscribe((value) => {
       this.refreshTime = value;
-      if (value < 0)
+      if (value <= 0)
         this.store.dispatch(
           dialogActions.resetDialogTimer({
             dialogId: this.dialogId,

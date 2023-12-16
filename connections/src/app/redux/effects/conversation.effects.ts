@@ -137,10 +137,11 @@ export const updateConversation$ = createEffect(
             })
           ),
           catchError(({ error }) => {
-            if (!error.status && error instanceof PointerEvent)
+            if (!error.status && error instanceof ProgressEvent)
               return of(
                 conversationActions.updateConversationError({
                   message: 'No internet connection',
+                  conversationId,
                 })
               );
             if (error.type === 'InvalidTokenException')
@@ -148,6 +149,7 @@ export const updateConversation$ = createEffect(
             return of(
               conversationActions.updateConversationError({
                 message: error.message,
+                conversationId,
               })
             );
           })
@@ -161,8 +163,7 @@ export const updateConversation$ = createEffect(
 export const updateConversationSuccess$ = createEffect(
   (
     actions$ = inject(Actions),
-    notificationService = inject(NotificationService),
-    store = inject(Store)
+    notificationService = inject(NotificationService)
   ) => {
     return actions$.pipe(
       ofType(conversationActions.updateConversationSuccess),
@@ -171,9 +172,6 @@ export const updateConversationSuccess$ = createEffect(
           message: 'Conversation updated',
           type: 'success',
         });
-        store.dispatch(
-          conversationActions.setConversationTimer({ conversationId })
-        );
       })
     );
   },
@@ -183,16 +181,21 @@ export const updateConversationSuccess$ = createEffect(
 export const updateConversationError$ = createEffect(
   (
     actions$ = inject(Actions),
-    notificationService = inject(NotificationService)
+    notificationService = inject(NotificationService),
+    store = inject(Store)
   ) => {
     return actions$.pipe(
       ofType(conversationActions.updateConversationError),
-      tap(({ message }) =>
+      tap(({ message, conversationId }) => {
         notificationService.showNotification({
           message,
           type: 'error',
-        })
-      )
+        });
+        console.log(message);
+        store.dispatch(
+          conversationActions.resetConversationTimer({ conversationId })
+        );
+      })
     );
   },
   { functional: true, dispatch: false }
@@ -210,7 +213,7 @@ export const postMessageToConversation$ = createEffect(
             })
           ),
           catchError(({ error }) => {
-            if (!error.status && error instanceof PointerEvent)
+            if (!error.status && error instanceof ProgressEvent)
               return of(
                 conversationActions.postConversationMessageError({
                   message: 'No internet connection',

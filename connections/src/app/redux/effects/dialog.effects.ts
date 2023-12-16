@@ -125,16 +125,20 @@ export const updateDialog$ = createEffect(
             dialogActions.updateDialogSuccess({ dialog, dialogId })
           ),
           catchError(({ error }) => {
-            if (!error.status && error instanceof PointerEvent)
+            if (!error.status && error instanceof ProgressEvent)
               return of(
                 dialogActions.updateDialogError({
                   message: 'No internet connection',
+                  dialogId,
                 })
               );
             if (error.type === 'InvalidTokenException')
               return of(forceLogout({ message: error.message }));
             return of(
-              dialogActions.updateDialogError({ message: error.message })
+              dialogActions.updateDialogError({
+                message: error.message,
+                dialogId,
+              })
             );
           })
         )
@@ -147,17 +151,15 @@ export const updateDialog$ = createEffect(
 export const updateDialogSuccess$ = createEffect(
   (
     actions$ = inject(Actions),
-    notificationService = inject(NotificationService),
-    store = inject(Store)
+    notificationService = inject(NotificationService)
   ) => {
     return actions$.pipe(
       ofType(dialogActions.updateDialogSuccess),
-      tap(({ dialogId }) => {
+      tap(() => {
         notificationService.showNotification({
           message: 'Dialog updated',
           type: 'success',
         });
-        store.dispatch(dialogActions.setDialogTimer({ dialogId }));
       })
     );
   },
@@ -167,16 +169,18 @@ export const updateDialogSuccess$ = createEffect(
 export const updateDialogError$ = createEffect(
   (
     actions$ = inject(Actions),
-    notificationService = inject(NotificationService)
+    notificationService = inject(NotificationService),
+    store = inject(Store)
   ) => {
     return actions$.pipe(
       ofType(dialogActions.updateDialogError),
-      tap(({ message }) =>
+      tap(({ message, dialogId }) => {
         notificationService.showNotification({
           message,
           type: 'error',
-        })
-      )
+        });
+        store.dispatch(dialogActions.resetDialogTimer({ dialogId }));
+      })
     );
   },
   { functional: true, dispatch: false }
@@ -190,7 +194,7 @@ export const postMessageToDialog$ = createEffect(
         apiService.postMessageToDialog(dialogId, message).pipe(
           map(() => dialogActions.postDialogMessageSuccess({ dialogId })),
           catchError(({ error }) => {
-            if (!error.status && error instanceof PointerEvent)
+            if (!error.status && error instanceof ProgressEvent)
               return of(
                 dialogActions.postDialogMessageError({
                   message: 'No internet connection',

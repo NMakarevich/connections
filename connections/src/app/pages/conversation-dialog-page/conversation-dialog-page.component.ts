@@ -79,7 +79,7 @@ export class ConversationDialogPageComponent implements OnInit {
 
     this.timer().subscribe((value) => {
       this.refreshTime = value;
-      if (value < 0)
+      if (value <= 0)
         this.store.dispatch(
           conversationActions.resetConversationTimer({
             conversationId: this.conversationId,

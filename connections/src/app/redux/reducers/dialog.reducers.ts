@@ -45,11 +45,12 @@ export const dialogReducers = createReducer(
     }
   ),
   on(dialogActions.refreshDialog, (state, { dialogId }): DialogState => {
+    const time = new Date().getTime() + REFRESH_TIME;
     return {
       ...state,
       dialogs: {
         ...state.dialogs,
-        [dialogId]: { ...state.dialogs[dialogId] },
+        [dialogId]: { ...state.dialogs[dialogId], refreshTime: time },
       },
     };
   }),
@@ -70,19 +71,6 @@ export const dialogReducers = createReducer(
       };
     }
   ),
-  on(dialogActions.setDialogTimer, (state, { dialogId }): DialogState => {
-    const time = new Date().getTime() + REFRESH_TIME;
-    return {
-      ...state,
-      dialogs: {
-        ...state.dialogs,
-        [dialogId]: {
-          ...state.dialogs[dialogId],
-          refreshTime: time,
-        },
-      },
-    };
-  }),
   on(
     dialogActions.resetDialogTimer,
     (state, { dialogId }): DialogState => ({
