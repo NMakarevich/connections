@@ -47,14 +47,12 @@ export const conversationReducers = createReducer(
   on(
     conversationActions.refreshConversation,
     (state, { conversationId }): ConversationState => {
-      const time = new Date().getTime() + REFRESH_TIME;
       return {
         ...state,
         dialogs: {
           ...state.dialogs,
           [conversationId]: {
             ...state.dialogs[conversationId],
-            refreshTime: time,
           },
         },
       };
@@ -75,6 +73,22 @@ export const conversationReducers = createReducer(
               ...state.dialogs[conversationId].Items,
               ...conversation.Items,
             ],
+          },
+        },
+      };
+    }
+  ),
+  on(
+    conversationActions.setConversationTimer,
+    (state, { conversationId }): ConversationState => {
+      const time = new Date().getTime() + REFRESH_TIME;
+      return {
+        ...state,
+        dialogs: {
+          ...state.dialogs,
+          [conversationId]: {
+            ...state.dialogs[conversationId],
+            refreshTime: time,
           },
         },
       };

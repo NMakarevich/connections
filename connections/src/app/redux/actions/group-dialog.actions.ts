@@ -41,6 +41,11 @@ export const refreshDialog = createAction(
   props<{ dialogId: string }>()
 );
 
+export const setDialogTimer = createAction(
+  '[Dialog] Set dialog timer',
+  props<{ dialogId: string }>()
+);
+
 export const resetDialogTimer = createAction(
   '[Dialog] Reset dialog timer',
   props<{ dialogId: string }>()

@@ -161,16 +161,20 @@ export const updateConversation$ = createEffect(
 export const updateConversationSuccess$ = createEffect(
   (
     actions$ = inject(Actions),
-    notificationService = inject(NotificationService)
+    notificationService = inject(NotificationService),
+    store = inject(Store)
   ) => {
     return actions$.pipe(
       ofType(conversationActions.updateConversationSuccess),
-      tap(() =>
+      tap(({ conversationId }) => {
         notificationService.showNotification({
           message: 'Conversation updated',
           type: 'success',
-        })
-      )
+        });
+        store.dispatch(
+          conversationActions.setConversationTimer({ conversationId })
+        );
+      })
     );
   },
   { functional: true, dispatch: false }

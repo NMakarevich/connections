@@ -41,6 +41,11 @@ export const refreshConversation = createAction(
   props<{ conversationId: string }>()
 );
 
+export const setConversationTimer = createAction(
+  '[Conversation] Set dialog timer',
+  props<{ conversationId: string }>()
+);
+
 export const resetConversationTimer = createAction(
   '[Conversation] Reset conversation timer',
   props<{ conversationId: string }>()

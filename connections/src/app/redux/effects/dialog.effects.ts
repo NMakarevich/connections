@@ -147,16 +147,18 @@ export const updateDialog$ = createEffect(
 export const updateDialogSuccess$ = createEffect(
   (
     actions$ = inject(Actions),
-    notificationService = inject(NotificationService)
+    notificationService = inject(NotificationService),
+    store = inject(Store)
   ) => {
     return actions$.pipe(
       ofType(dialogActions.updateDialogSuccess),
-      tap(() =>
+      tap(({ dialogId }) => {
         notificationService.showNotification({
           message: 'Dialog updated',
           type: 'success',
-        })
-      )
+        });
+        store.dispatch(dialogActions.setDialogTimer({ dialogId }));
+      })
     );
   },
   { functional: true, dispatch: false }

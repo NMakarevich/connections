@@ -92,6 +92,13 @@ export const peopleReducers = createReducer(
     })
   ),
   on(
+    peopleActions.loadPeopleListError,
+    (state): PeopleState => ({
+      ...state,
+      refreshTime: 0,
+    })
+  ),
+  on(
     peopleActions.resetPeopleTimer,
     (state): PeopleState => ({
       ...state,
