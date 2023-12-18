@@ -1,5 +1,5 @@
 <div class='group-item' *ngIf='groupItem'>
-  <a [routerLink]='["group", groupItem.id.S]' class='group-item-name'>{{groupItem.name.S}}</a>
+  <a [routerLink]='["group", groupItem.id.S]' [state]='{data: groupItem}' class='group-item-name'>{{groupItem.name.S}}</a>
   <button *ngIf='isOwner' type='button' class='group-item-delete' (click)='deleteGroup()'>
     <span class='material-symbols-outlined'>delete</span>
   </button>

@@ -1,16 +1,19 @@
 <header class='header'>
-  <a routerLink='/' class='to-home'>
-    <span class='material-symbols-outlined'>home</span>
-  </a>
-  <div class='refresh'>
-    <app-button [color]='COLOR_BLUE' (click)='updateMessages()' [disabled]='refreshTime !== 0'>
-      <span class='material-symbols-outlined'>refresh</span>
+  <h2 class='header-title' *ngIf='userData$ | async as userItem'>Dialog with {{userItem.name.S}}</h2>
+  <div class='header-buttons'>
+    <a routerLink='/' class='to-home'>
+      <span class='material-symbols-outlined'>home</span>
+    </a>
+    <div class='refresh'>
+      <app-button [color]='COLOR_BLUE' (click)='updateMessages()' [disabled]='refreshTime !== 0'>
+        <span class='material-symbols-outlined'>refresh</span>
+      </app-button>
+      <span *ngIf='refreshTime !== 0' class='refresh-timer'>{{refreshTime}}s</span>
+    </div>
+    <app-button class='delete-conversation' [color]='COLOR_BLUE' (click)='deleteConversation()'>
+      <span class='material-symbols-outlined'>delete</span>
     </app-button>
-    <span *ngIf='refreshTime !== 0' class='refresh-timer'>{{refreshTime}}s</span>
   </div>
-  <app-button class='delete-conversation' [color]='COLOR_BLUE' (click)='deleteConversation()'>
-    <span class='material-symbols-outlined'>delete</span>
-  </app-button>
 </header>
 <div class='dialog' *ngIf='(conversation$ | async) as dialog' appScrollToBottom appAutoHeight [nextElement]='true'>
   <app-message *ngFor='let message of dialog | sortByDate' [message]='message' [class.own]='authorId === message.authorID.S'></app-message>

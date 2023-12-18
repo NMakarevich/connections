@@ -1,6 +1,6 @@
 <div class='people-item' [class.has-conversation]='!!conversation'>
   @if (conversation) {
-    <a [routerLink]='["conversation", conversation.id.S]' class='people-item-name'>{{user.name.S}}</a>
+    <a [routerLink]='["conversation", conversation.id.S]' [state]='{data: user}' class='people-item-name'>{{user.name.S}}</a>
   } @else {
     <a class='people-item-name' (click)='createConversation()' tabindex='1' (keyup.enter)='createConversation()'>{{user.name.S}}</a>
   }

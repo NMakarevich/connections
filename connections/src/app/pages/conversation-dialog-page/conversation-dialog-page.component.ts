@@ -53,6 +53,8 @@ export class ConversationDialogPageComponent implements OnInit, OnDestroy {
 
   conversationId = '';
 
+  userData$!: Observable<UserItem>;
+
   refreshTime = 0;
 
   timerSubscription!: Subscription;
@@ -65,6 +67,9 @@ export class ConversationDialogPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.conversationId = this.route.snapshot.params['conversationId'];
+    this.userData$ = this.route.paramMap.pipe(
+      map(() => window.history.state.data)
+    );
     this.store.dispatch(
       conversationActions.loadConversation({
         conversationId: this.conversationId,
@@ -95,6 +100,10 @@ export class ConversationDialogPageComponent implements OnInit, OnDestroy {
           })
         );
     });
+  }
+
+  ngOnDestroy() {
+    this.timerSubscription.unsubscribe();
   }
 
   timer() {

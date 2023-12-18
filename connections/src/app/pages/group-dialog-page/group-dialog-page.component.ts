@@ -26,6 +26,7 @@ import { ModalService } from '../../services/modal.service';
 import { DeleteComponent } from '../../components/delete/delete.component';
 import { AutoHeightDirective } from '../../directives/auto-height.directive';
 import { deleteGroup } from '../../redux/actions/group.actions';
+import { GroupItem } from '../../models/group.model';
 
 @Component({
   selector: 'app-group-dialog-page',
@@ -54,6 +55,8 @@ export class GroupDialogPageComponent implements OnInit, OnDestroy {
 
   dialogId = '';
 
+  groupData$!: Observable<GroupItem>;
+
   isOwner$!: Observable<boolean>;
 
   refreshTime = 0;
@@ -68,6 +71,9 @@ export class GroupDialogPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.dialogId = this.route.snapshot.params['groupId'];
+    this.groupData$ = this.route.paramMap.pipe(
+      map(() => window.history.state.data)
+    );
     this.store.dispatch(dialogActions.loadDialog({ dialogId: this.dialogId }));
     this.dialog$ = this.dialogs$.pipe(
       map((dialogs) => dialogs[this.dialogId]?.Items),
