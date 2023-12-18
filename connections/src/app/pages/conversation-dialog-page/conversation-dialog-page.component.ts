@@ -1,7 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { interval, map, Observable, switchMap, takeWhile } from 'rxjs';
+import {
+  interval,
+  map,
+  Observable,
+  Subscription,
+  switchMap,
+  takeWhile,
+} from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AutoHeightDirective } from '../../directives/auto-height.directive';
 import { ButtonComponent } from '../../components/UI/button/button.component';
@@ -37,7 +44,7 @@ import { deleteConversation } from '../../redux/actions/conversation-dialog.acti
   templateUrl: './conversation-dialog-page.component.html',
   styleUrl: './conversation-dialog-page.component.scss',
 })
-export class ConversationDialogPageComponent implements OnInit {
+export class ConversationDialogPageComponent implements OnInit, OnDestroy {
   conversation$!: Observable<MessageWithAuthorName[]>;
 
   conversations$ = this.store.select(selectConversations);
@@ -47,6 +54,8 @@ export class ConversationDialogPageComponent implements OnInit {
   conversationId = '';
 
   refreshTime = 0;
+
+  timerSubscription!: Subscription;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -77,7 +86,7 @@ export class ConversationDialogPageComponent implements OnInit {
       )
     );
 
-    this.timer().subscribe((value) => {
+    this.timerSubscription = this.timer().subscribe((value) => {
       this.refreshTime = value;
       if (value <= 0)
         this.store.dispatch(

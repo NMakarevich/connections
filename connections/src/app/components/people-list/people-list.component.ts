@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { interval, map, Observable, switchMap, takeWhile } from 'rxjs';
+import {
+  interval,
+  map,
+  Observable,
+  Subscription,
+  switchMap,
+  takeWhile,
+} from 'rxjs';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import {
   refreshPeopleList,
@@ -23,21 +30,27 @@ import { PeopleListItemComponent } from '../people-list-item/people-list-item.co
   templateUrl: './people-list.component.html',
   styleUrl: './people-list.component.scss',
 })
-export class PeopleListComponent implements OnInit {
+export class PeopleListComponent implements OnInit, OnDestroy {
   peopleList$!: Observable<PeopleListWithConversations>;
 
   dataLoaded$ = this.store.select(selectDataLoaded);
 
   refreshTime = 0;
 
+  timerSubscription!: Subscription;
+
   constructor(private readonly store: Store) {}
 
   ngOnInit() {
     this.peopleList$ = this.store.select(selectPeopleList);
-    this.timer().subscribe((value) => {
+    this.timerSubscription = this.timer().subscribe((value) => {
       this.refreshTime = value;
       if (value <= 0) this.store.dispatch(resetPeopleTimer());
     });
+  }
+
+  ngOnDestroy() {
+    this.timerSubscription.unsubscribe();
   }
 
   timer() {

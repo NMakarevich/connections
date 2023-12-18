@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { interval, map, Observable, switchMap, takeWhile } from 'rxjs';
+import {
+  interval,
+  map,
+  Observable,
+  Subscription,
+  switchMap,
+  takeWhile,
+} from 'rxjs';
 import { AsyncPipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { ButtonComponent } from '../UI/button/button.component';
 import { COLOR_BLUE } from '../../utils/consts';
@@ -31,10 +38,12 @@ import { GroupListItemComponent } from '../group-list-item/group-list-item.compo
   templateUrl: './group-list.component.html',
   styleUrl: './group-list.component.scss',
 })
-export class GroupListComponent implements OnInit {
+export class GroupListComponent implements OnInit, OnDestroy {
   groupsList$!: Observable<GroupItem[]>;
 
   refreshTime = 0;
+
+  timerSubscription!: Subscription;
 
   constructor(
     private readonly store: Store,
@@ -43,10 +52,14 @@ export class GroupListComponent implements OnInit {
 
   ngOnInit() {
     this.groupsList$ = this.store.select(selectGroupsList);
-    this.timer().subscribe((value) => {
+    this.timerSubscription = this.timer().subscribe((value) => {
       this.refreshTime = value;
       if (value <= 0) this.store.dispatch(resetGroupTimer());
     });
+  }
+
+  ngOnDestroy() {
+    this.timerSubscription.unsubscribe();
   }
 
   timer() {

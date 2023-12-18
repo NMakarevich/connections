@@ -1,7 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { interval, map, Observable, switchMap, takeWhile } from 'rxjs';
+import {
+  interval,
+  map,
+  Observable,
+  Subscription,
+  switchMap,
+  takeWhile,
+} from 'rxjs';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import * as dialogActions from '../../redux/actions/group-dialog.actions';
 import { MessageWithAuthorName } from '../../models/dialog.model';
@@ -38,7 +45,7 @@ import { deleteGroup } from '../../redux/actions/group.actions';
   templateUrl: './group-dialog-page.component.html',
   styleUrl: './group-dialog-page.component.scss',
 })
-export class GroupDialogPageComponent implements OnInit {
+export class GroupDialogPageComponent implements OnInit, OnDestroy {
   dialog$!: Observable<MessageWithAuthorName[]>;
 
   dialogs$ = this.store.select(selectDialogs);
@@ -50,6 +57,8 @@ export class GroupDialogPageComponent implements OnInit {
   isOwner$!: Observable<boolean>;
 
   refreshTime = 0;
+
+  timerSubscription!: Subscription;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -85,7 +94,7 @@ export class GroupDialogPageComponent implements OnInit {
       })
     );
 
-    this.timer().subscribe((value) => {
+    this.timerSubscription = this.timer().subscribe((value) => {
       this.refreshTime = value;
       if (value <= 0)
         this.store.dispatch(
@@ -94,6 +103,10 @@ export class GroupDialogPageComponent implements OnInit {
           })
         );
     });
+  }
+
+  ngOnDestroy() {
+    this.timerSubscription.unsubscribe();
   }
 
   timer() {
