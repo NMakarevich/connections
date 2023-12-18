@@ -9,9 +9,15 @@
 
 .header {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  gap: 10px;
+
+  &-title {
+    color: #1976d2;
+  }
 
   .refresh {
+    align-self: center;
     position: relative;
     display: flex;
     flex-direction: column;

@@ -1,12 +1,15 @@
 <header class='header'>
-  <app-button [color]='COLOR_BLUE' (click)='addGroup()'>
-    <span class='material-symbols-outlined'>add</span>
-  </app-button>
-  <div class='refresh'>
-    <app-button [color]='COLOR_BLUE' (click)='refreshList()' [disabled]='refreshTime !== 0'>
-      <span class='material-symbols-outlined'>refresh</span>
+  <h2 class='header-title'>Groups</h2>
+  <div class='header-buttons'>
+    <app-button [color]='COLOR_BLUE' (click)='addGroup()'>
+      <span class='material-symbols-outlined'>add</span>
     </app-button>
-    <span *ngIf='refreshTime !== 0' class='refresh-timer'>{{refreshTime}}s</span>
+    <div class='refresh'>
+      <app-button [color]='COLOR_BLUE' (click)='refreshList()' [disabled]='refreshTime !== 0'>
+        <span class='material-symbols-outlined'>refresh</span>
+      </app-button>
+      <span *ngIf='refreshTime !== 0' class='refresh-timer'>{{refreshTime}}s</span>
+    </div>
   </div>
 </header>
 <ul class='groups-list' *ngIf='groupsList$ | async as groupsList'>

@@ -8,7 +8,17 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+
+  &-title {
+    color: #1976d2;
+  }
+
+  &-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
 
   .refresh {
     position: relative;
