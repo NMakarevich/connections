@@ -6,6 +6,7 @@ import * as authActions from '../actions/auth.actions';
 import { ApiService } from '../../services/api.service';
 import { NotificationService } from '../../components/UI/notification/notification.service';
 import { EMAIL } from '../../utils/consts';
+import { forceLogout } from '../actions/auth.actions';
 
 export const signup$ = createEffect(
   (actions$ = inject(Actions), apiService = inject(ApiService)) => {
@@ -122,9 +123,16 @@ export const logout$ = createEffect(
       switchMap(() =>
         apiService.logout().pipe(
           map(() => authActions.logoutSuccess()),
-          catchError(({ error }) =>
-            of(authActions.logoutError({ message: error.message }))
-          )
+          catchError(({ error }) => {
+            if (!error.status && error instanceof ProgressEvent) {
+              return of(
+                authActions.logoutError({ message: 'No internet connection' })
+              );
+            }
+            if (error.type === 'InvalidTokenException')
+              return of(forceLogout({ message: error.message }));
+            return of(authActions.logoutError({ message: error.message }));
+          })
         )
       )
     );
@@ -155,16 +163,11 @@ export const logoutSuccess$ = createEffect(
 export const logoutError$ = createEffect(
   (
     actions$ = inject(Actions),
-    notificationService = inject(NotificationService),
-    router = inject(Router)
+    notificationService = inject(NotificationService)
   ) => {
     return actions$.pipe(
       ofType(authActions.logoutError),
       tap(({ message }) => {
-        if (message === 'Current session token is not valid.') {
-          localStorage.clear();
-          router.navigate(['signin']);
-        }
         notificationService.showNotification({ message, type: 'error' });
       })
     );

@@ -7,6 +7,7 @@ import {
 import { DialogModel } from '../../models/dialog.model';
 import * as dialogActions from '../actions/group-dialog.actions';
 import { REFRESH_TIME } from '../../utils/consts';
+import { forceLogout, logoutSuccess } from '../actions/auth.actions';
 
 export interface DialogState {
   dialogs: {
@@ -79,6 +80,13 @@ export const dialogReducers = createReducer(
         ...state.dialogs,
         [dialogId]: { ...state.dialogs[dialogId], refreshTime: 0 },
       },
+    })
+  ),
+  on(
+    logoutSuccess,
+    forceLogout,
+    (): DialogState => ({
+      ...initialState,
     })
   )
 );

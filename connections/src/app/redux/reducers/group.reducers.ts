@@ -7,6 +7,7 @@ import {
 import { GroupsList } from '../../models/group.model';
 import * as groupActions from '../actions/group.actions';
 import { REFRESH_TIME } from '../../utils/consts';
+import { forceLogout, logoutSuccess } from '../actions/auth.actions';
 
 export interface GroupState {
   groupsList: GroupsList;
@@ -70,6 +71,13 @@ export const groupsReducers = createReducer(
     (state): GroupState => ({
       ...state,
       refreshTime: 0,
+    })
+  ),
+  on(
+    logoutSuccess,
+    forceLogout,
+    (): GroupState => ({
+      ...initialState,
     })
   )
 );

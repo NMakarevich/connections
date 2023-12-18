@@ -38,7 +38,7 @@ export const authReducers = createReducer(
       rsEmail: `${localStorage.getItem(EMAIL)}`,
     };
   }),
-  on(authActions.logoutSuccess, (state) => {
+  on(authActions.logoutSuccess, authActions.forceLogout, (state) => {
     localStorage.clear();
     return { ...state, ...initialState };
   })

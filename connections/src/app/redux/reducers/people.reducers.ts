@@ -12,6 +12,7 @@ import {
 } from '../../models/people.model';
 import * as peopleActions from '../actions/people.actions';
 import { REFRESH_TIME, UID } from '../../utils/consts';
+import { forceLogout, logoutSuccess } from '../actions/auth.actions';
 
 export interface PeopleState {
   peopleList: PeopleList;
@@ -103,6 +104,13 @@ export const peopleReducers = createReducer(
     (state): PeopleState => ({
       ...state,
       refreshTime: 0,
+    })
+  ),
+  on(
+    logoutSuccess,
+    forceLogout,
+    (): PeopleState => ({
+      ...initialState,
     })
   )
 );
