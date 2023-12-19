@@ -29,7 +29,12 @@ export const conversationReducers = createReducer(
           ...state,
           dialogs: {
             ...state.dialogs,
-            [conversationId]: { Count: 0, Items: [], refreshTime: 0 },
+            [conversationId]: {
+              Count: 0,
+              Items: [],
+              refreshTime: 0,
+              since: new Date().getTime(),
+            },
           },
         };
       return {
@@ -40,6 +45,11 @@ export const conversationReducers = createReducer(
             Count: conversation.Count,
             Items: conversation.Items,
             refreshTime: 0,
+            since: Math.max(
+              ...conversation.Items.map((message) =>
+                parseInt(message.createdAt.S, 10)
+              )
+            ),
           },
         },
       };
@@ -64,18 +74,33 @@ export const conversationReducers = createReducer(
   on(
     conversationActions.updateConversationSuccess,
     (state, { conversation, conversationId }): ConversationState => {
-      if (conversation.Count === 0) return state;
+      if (conversation.Count === 0)
+        return {
+          ...state,
+          dialogs: {
+            ...state.dialogs,
+            [conversationId]: {
+              ...state.dialogs[conversationId],
+              since: new Date().getTime(),
+            },
+          },
+        };
       return {
         ...state,
         dialogs: {
           ...state.dialogs,
           [conversationId]: {
             ...state.dialogs[conversationId],
-            Count: conversation.Count,
+            Count: conversation.Count + state.dialogs[conversationId].Count,
             Items: [
               ...state.dialogs[conversationId].Items,
               ...conversation.Items,
             ],
+            since: Math.max(
+              ...conversation.Items.map((message) =>
+                parseInt(message.createdAt.S, 10)
+              )
+            ),
           },
         },
       };

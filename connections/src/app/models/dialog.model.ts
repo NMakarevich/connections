@@ -2,6 +2,7 @@ export interface DialogModel {
   Count: number;
   Items: DialogMessage[];
   refreshTime: number;
+  since: number;
 }
 
 export interface DialogMessage {

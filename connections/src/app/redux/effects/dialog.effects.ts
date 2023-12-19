@@ -104,17 +104,10 @@ export const updateDialog$ = createEffect(
         store.select(selectDialogs).pipe(
           take(1),
           map((dialogs) => {
-            const dialog = dialogs[dialogId];
-            const latestMessageTime = dialog
-              ? Math.max(
-                  ...dialog.Items.map((message) =>
-                    parseInt(message.createdAt.S, 10)
-                  )
-                ).toString()
-              : '0';
+            const { since } = dialogs[dialogId];
             return {
               dialogId,
-              since: latestMessageTime,
+              since: since.toString(),
             };
           })
         )

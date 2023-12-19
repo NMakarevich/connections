@@ -29,7 +29,12 @@ export const dialogReducers = createReducer(
           ...state,
           dialogs: {
             ...state.dialogs,
-            [dialogId]: { Count: 0, Items: [], refreshTime: 0 },
+            [dialogId]: {
+              Count: 0,
+              Items: [],
+              refreshTime: 0,
+              since: new Date().getTime(),
+            },
           },
         };
       return {
@@ -40,6 +45,11 @@ export const dialogReducers = createReducer(
             Count: dialog.Count,
             Items: dialog.Items,
             refreshTime: 0,
+            since: Math.max(
+              ...dialog.Items.map((message) =>
+                parseInt(message.createdAt.S, 10)
+              )
+            ),
           },
         },
       };
@@ -58,15 +68,30 @@ export const dialogReducers = createReducer(
   on(
     dialogActions.updateDialogSuccess,
     (state, { dialog, dialogId }): DialogState => {
-      if (dialog.Count === 0) return state;
+      if (dialog.Count === 0)
+        return {
+          ...state,
+          dialogs: {
+            ...state.dialogs,
+            [dialogId]: {
+              ...state.dialogs[dialogId],
+              since: new Date().getTime(),
+            },
+          },
+        };
       return {
         ...state,
         dialogs: {
           ...state.dialogs,
           [dialogId]: {
             ...state.dialogs[dialogId],
-            Count: dialog.Count,
+            Count: dialog.Count + state.dialogs[dialogId].Count,
             Items: [...state.dialogs[dialogId].Items, ...dialog.Items],
+            since: Math.max(
+              ...dialog.Items.map((message) =>
+                parseInt(message.createdAt.S, 10)
+              )
+            ),
           },
         },
       };

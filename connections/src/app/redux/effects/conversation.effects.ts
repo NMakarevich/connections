@@ -113,17 +113,10 @@ export const updateConversation$ = createEffect(
         store.select(selectConversations).pipe(
           take(1),
           map((conversations) => {
-            const conversation = conversations[conversationId];
-            const latestMessageTime = conversation
-              ? Math.max(
-                  ...conversation.Items.map((message) =>
-                    parseInt(message.createdAt.S, 10)
-                  )
-                ).toString()
-              : '0';
+            const { since } = conversations[conversationId];
             return {
               conversationId,
-              since: latestMessageTime,
+              since: since.toString(),
             };
           })
         )
@@ -167,7 +160,7 @@ export const updateConversationSuccess$ = createEffect(
   ) => {
     return actions$.pipe(
       ofType(conversationActions.updateConversationSuccess),
-      tap(({ conversationId }) => {
+      tap(() => {
         notificationService.showNotification({
           message: 'Conversation updated',
           type: 'success',
@@ -191,7 +184,6 @@ export const updateConversationError$ = createEffect(
           message,
           type: 'error',
         });
-        console.log(message);
         store.dispatch(
           conversationActions.resetConversationTimer({ conversationId })
         );
